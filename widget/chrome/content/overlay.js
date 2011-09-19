@@ -1,16 +1,21 @@
 var clipperzwidget = 
 {
+    user: null,
+    prompt_service: null,
+    prefs: null,
+    value: null,
+    
     init: function(e)
     {
         this.initialized = true;
         this.strings = document.getElementById("clipperzwidget-strings");
 
-        this.user = null;
-        clipperzwidget.login();
 
         this.prompt_service = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                                         .getService(Components.interfaces.nsIPromptService);
-                                        
+
+        clipperzwidget.login();
+
         document.getElementById("contentAreaContextMenu")
                 .addEventListener("popupshowing", clipperzwidget.show_menu, false);
 
@@ -23,7 +28,18 @@ var clipperzwidget =
 
     onMenuItemCommand: function(e) 
     {    
-        alert("clicked!");
+        if(this.prefs == null)
+        {
+            this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
+                                   .getService(Components.interfaces.nsIPrefBranch);                               
+        }
+                               
+        this.value = this.prefs.getCharPref("extensions.clipperzwidget.username");
+        
+        
+        alert("this.user = " + this.user);
+        alert("this.prefs = " + this.prefs);
+        alert("this.value = " + this.value);
         
         try
         {
@@ -60,8 +76,11 @@ var clipperzwidget =
     
     login: function()
     {
-        this.user = new Clipperz.PM.DataModel.User({username:"daniel", passphrase:"ServerNull1"});
         var result = new MochiKit.Async.Deferred();
+        
+        
+        this.user = new Clipperz.PM.DataModel.User({username:"daniel", passphrase:"ServerNull1"});
+        
 
         result.addCallback(MochiKit.Base.method(this.user, 'connect'));
         result.addCallback(MochiKit.Base.method(this.user, 'loadPreferences'));
