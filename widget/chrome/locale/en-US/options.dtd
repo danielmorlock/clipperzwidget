@@ -1,0 +1,11 @@
+<!ENTITY prefwindow.title "Clipperz Widget Preferences">
+<!ENTITY pane1.title "Clipperz Widget Preferences">
+
+<!ENTITY pref_server.label "Clipperz Server URL">
+<!ENTITY pref_server.accesskey "S">
+
+<!ENTITY pref_username.label "Username">
+<!ENTITY pref_username.accesskey "U">
+
+<!ENTITY pref_password.label "Password">
+<!ENTITY pref_password.accesskey "P">

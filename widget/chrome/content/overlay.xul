@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://clipperzwidget/skin/overlay.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://clipperzwidget/locale/overlay.dtd">
+<overlay id="clipperzwidget-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    
+    <script src="overlay.js"/>
+    
+    <script src="scripts/clipperz-0.0.3/bookmarklet.js"/>
+    <script src="scripts/clipperz-0.0.3/bookmarklet_ie.js"/>
+    <script src="scripts/clipperz-0.0.3/MochiKit/Base.js"/>
+    <script src="scripts/clipperz-0.0.3/MochiKit/Iter.js"/>
+    <script src="scripts/clipperz-0.0.3/MochiKit/DOM.js"/>
+    <script src="scripts/clipperz-0.0.3/MochiKit/Style.js"/>
+    <script src="scripts/clipperz-0.0.3/MochiKit/Signal.js"/>
+    <script src="scripts/clipperz-0.0.3/MochiKit/Format.js"/>
+    <script src="scripts/clipperz-0.0.3/MochiKit/Async.js"/>
+    <script src="scripts/clipperz-0.0.3/MochiKit/Selector.js"/>
+    <script src="scripts/clipperz-0.0.3/MochiKit/Logging.js"/>
+    <script src="scripts/clipperz-0.0.3/MochiKit/LoggingPane.js"/>
+    <script src="scripts/clipperz-0.0.3/DWR/interface/com_clipperz_pm_Proxy.js"/>
+    <script src="scripts/clipperz-0.0.3/DWR/engine.js"/>
+    <script src="scripts/clipperz-0.0.3/DWR/util.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI/yahoo.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI/animation.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI/event.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI/dom.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI/dragdrop.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI/logger.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/yutil.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/Bench.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/Date.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/DomHelper.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/Element.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/CompositeElement.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/State.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/EventManager.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/KeyMap.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/Layer.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/MixedCollection.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/State.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/UpdateManager.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/anim/Actor.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/anim/Animator.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/dd/Registry.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/dd/ScrollManager.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/dd/StatusProxy.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/layout/ContentPanels.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/layout/LayoutManager.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/layout/BorderLayout.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/layout/BasicLayoutRegion.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/layout/LayoutRegion.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/layout/LayoutStateManager.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/layout/SplitLayoutRegion.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/layout/BorderLayoutRegions.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/widgets/BasicDialog.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/widgets/Button.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/widgets/MessageBox.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/widgets/Resizable.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/widgets/SplitBar.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/widgets/TabPanel.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/widgets/TemplateView.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/widgets/Toolbar.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/widgets/InlineEditor.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/widgets/QuickTips.js"/>
+    <script src="scripts/clipperz-0.0.3/YUI-extensions/CSS.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/ByteArray.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/Base.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/CSVProcessor.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/KeePassExportProcessor.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/Date.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/DOM.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/Signal.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/Style.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/Set.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/Profile.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/NotificationCenter.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/Crypto/SHA.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/Crypto/AES.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/Crypto/PRNG.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/Crypto/BigInt.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/Crypto/Base.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/Crypto/SRP.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/Crypto/RSA.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Strings/Strings_en-US.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Strings/Strings_it-IT.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Strings/Strings_pt-BR.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Strings/Strings_ja-JP.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Strings/Strings_zh-CN.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Strings/Strings_es-ES.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Strings/Strings_fr-FR.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Strings.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Strings/MessagePanelConfigurations.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Date.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/BaseComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/MessageBox.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/TextFormField.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/PasswordEntropyDisplay.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/PasswordGenerator.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Panels/BasePanel.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Panels/LoginPanel.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Panels/MainPanel.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Panels/AccountPanel.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Panels/DataPanel.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Panels/ContactsPanel.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Panels/ToolsPanel.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Panels/LogoutPanel.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/MainComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/AbstractComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/HeaderComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/TitleComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/NotesComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/FieldComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/AbstractFieldSubComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/FieldButtonComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/FieldLabelComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/FieldDragHandler.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/FieldValueComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/FieldTypeComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/DirectLoginsComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/DirectLoginComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/DirectLoginBindingComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/DirectLoginValueComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/RecordDetail/CreationWizard.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/TabPanel/TabPanelController.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Import/MainComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Import/GenericImportComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Import/CSVImportComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Import/CSVImport/CSVImportColumns.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Import/CSVImport/CSVImportHeader.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Import/CSVImport/CSVImportTitle.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Import/CSVImport/CSVImportNotes.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Import/CSVImport/CSVImportFields.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Import/ExcelImportComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Import/PasswordPlusImportComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Import/ClipperzImportComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Import/RoboFormImportComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Import/KeePassImportComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Printing/Header.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Printing/Record.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Printing/Footer.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/OTP/MainComponent.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Compact/CompactHeader.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Compact/LoginForm.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Components/Compact/CompactInterface.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Toll.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Proxy.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Proxy/Proxy.DWR.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Proxy/Proxy.PHP.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Proxy/Proxy.Offline.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Connection.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Crypto.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/BookmarkletProcessor.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/DataModel/User.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/DataModel/UserPreferences.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/DataModel/Header.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/DataModel/Statistics.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/DataModel/Record.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/DataModel/RecordField.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/DataModel/RecordVersion.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/DataModel/DirectLogin.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/DataModel/DirectLoginReference.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/DataModel/DirectLoginInput.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/DataModel/DirectLoginBinding.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/DataModel/OneTimePasswordManager.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/DataModel/OneTimePassword.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/YUI/IBLayoutManager.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/YUI/IBLayoutRegion.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/YUI/Drawer.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/YUI/Collapser.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/YUI/MessageBox.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Main.js"/>
+    
+    <script type="application/javascript">
+        Clipperz.PM.Proxy.defaultProxy = new Clipperz.PM.Proxy.PHP("Proxy.PM.Proxy.PHP");
+        Clipperz.Crypto.PRNG.defaultRandomGenerator().fastEntropyAccumulationForTestingPurpose();
+    </script>
+    
+    <script src="scripts/clipperz-0.0.3/MochiKit/LoggingPane.js"/>
+  
+    <stringbundleset id="stringbundleset">
+        <stringbundle id="clipperzwidget-strings" src="chrome://clipperzwidget/locale/overlay.properties"/>
+    </stringbundleset>
+
+    <menupopup id="menu_ToolsPopup">
+        <menuitem id="clipperzwidget-hello" label="&clipperzwidget.label;"
+              oncommand="clipperzwidget.onMenuItemCommand(event);"/>
+    </menupopup>
+
+    <popup id="contentAreaContextMenu">
+        <menuitem id="context-clipperzwidget" label="&clipperzwidgetContext.label;"
+              accesskey="&clipperzwidgetContext.accesskey;"
+              insertafter="context-stop"
+              oncommand="clipperzwidget.onMenuItemCommand(event)"/>
+    </popup>
+
+    <toolbarpalette id="BrowserToolbarPalette">
+        <toolbarbutton id="clipperzwidget-toolbar-button" class="toolbarbutton-1 chromeclass-toolbar-additional"
+    label="&clipperzwidgetToolbarButton.label;" tooltiptext="&clipperzwidgetToolbarButton.tooltip;"
+    oncommand="clipperzwidget.onToolbarButtonCommand()"/>
+    </toolbarpalette>
+
+    <toolbox id="navigator-toolbox">
+        <toolbar class="chromeclass-toolbar" toolbarname="&clipperzwidgetToolbar.name;" customizable="true" id="clipperzwidget-toolbar">
+            <label value="&clipperzwidgetToolbar.label;"/>
+        </toolbar>
+    </toolbox>
+
+
+</overlay>

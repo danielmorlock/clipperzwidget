@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>clipperzwidget@danielmorlock.de</em:id>
+    <em:type>2</em:type>
+    <em:name>Clipperz Widget</em:name>
+    <em:version>0.1</em:version>
+    <em:creator>Daniel Morlock</em:creator>
+    <em:contributor></em:contributor>
+    <em:description>Integrates the Clipperz password manager into your Firefox browser.  Enabled auto-login and auto-paste for your passwords stored in the Clipperz database.</em:description>
+    <em:aboutURL>chrome://clipperzwidget/content/about.xul</em:aboutURL>
+    <em:optionsURL>chrome://clipperzwidget/content/options.xul</em:optionsURL>
+    <em:targetApplication>
+      <Description>
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id> <!-- Firefox -->
+        <em:minVersion>3.6</em:minVersion>
+        <em:maxVersion>9.0a1</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+  </Description>
+</RDF>
