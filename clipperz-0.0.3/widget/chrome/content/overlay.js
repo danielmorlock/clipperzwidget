@@ -4,13 +4,13 @@ var clipperzwidget =
     {
         this.initialized = true;
         this.strings = document.getElementById("clipperzwidget-strings");
-        
+
         this.user = null;
         clipperzwidget.login();
-        
+
         this.prompt_service = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                                         .getService(Components.interfaces.nsIPromptService);
-        
+                                        
         document.getElementById("contentAreaContextMenu")
                 .addEventListener("popupshowing", clipperzwidget.show_menu, false);
 
