@@ -2,9 +2,7 @@
 <?xml-stylesheet href="chrome://clipperzwidget/skin/overlay.css" type="text/css"?>
 <!DOCTYPE overlay SYSTEM "chrome://clipperzwidget/locale/overlay.dtd">
 <overlay id="clipperzwidget-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-    
-    <script src="overlay.js"/>
-    
+        
     <script src="scripts/clipperz-0.0.3/bookmarklet.js"/>
     <script src="scripts/clipperz-0.0.3/bookmarklet_ie.js"/>
     <script src="scripts/clipperz-0.0.3/MochiKit/Base.js"/>
@@ -169,6 +167,8 @@
     <script src="scripts/clipperz-0.0.3/Clipperz/YUI/Collapser.js"/>
     <script src="scripts/clipperz-0.0.3/Clipperz/YUI/MessageBox.js"/>
     <script src="scripts/clipperz-0.0.3/Clipperz/PM/Main.js"/>
+    
+    <script src="overlay.js"/>  
     
     <script type="application/javascript">
         Clipperz.PM.Proxy.defaultProxy = new Clipperz.PM.Proxy.PHP("Proxy.PM.Proxy.PHP");

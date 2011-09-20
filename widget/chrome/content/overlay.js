@@ -1,68 +1,64 @@
-var clipperzwidget = 
+ClipperzWidget = function()
 {
-    user: null,
-    prompt_service: null,
-    prefs: null,
-    value: null,
+    this.user = null;
+    this.prompt_service = null;
+    this.pref_service = null;
+    this.error = null;
     
-    init: function(e)
+    return this;
+};
+    
+MochiKit.Base.update(ClipperzWidget.prototype, {
+    
+    'init': function()
     {
         this.initialized = true;
         this.strings = document.getElementById("clipperzwidget-strings");
 
-
-        this.prompt_service = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-                                        .getService(Components.interfaces.nsIPromptService);
-
-        clipperzwidget.login();
-
         document.getElementById("contentAreaContextMenu")
-                .addEventListener("popupshowing", clipperzwidget.show_menu, false);
+                .addEventListener("popupshowing", this.show_menu, false);
 
         // The event can be DOMContentLoaded, pageshow, pagehide, load or unload. 
         if(gBrowser)
         {
-            gBrowser.addEventListener("DOMContentLoaded", clipperzwidget.analyse_page, false);
+            gBrowser.addEventListener("DOMContentLoaded", this.analyse_page, false);
         }
-    },
-
-    onMenuItemCommand: function(e) 
-    {    
-        if(this.prefs == null)
-        {
-            this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
-                                   .getService(Components.interfaces.nsIPrefBranch);                               
-        }
-                               
-        this.value = this.prefs.getCharPref("extensions.clipperzwidget.username");
-        
-        
-        alert("this.user = " + this.user);
-        alert("this.prefs = " + this.prefs);
-        alert("this.value = " + this.value);
         
         try
         {
-            this.prompt_service.alert(window, 
-                                      this.strings.getString("helloMessageTitle"),
-                                      this.strings.getString("helloMessage"));
+            this.pref_service = Components.classes["@mozilla.org/preferences-service;1"]
+                                          .getService(Components.interfaces.nsIPrefBranch);    
+                                   
+            this.prompt_service = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+                                            .getService(Components.interfaces.nsIPromptService);
+                                            
+            this.login();
         }
-        catch(err) { alert(err); }
+        catch(error)
+        {
+            this.error = error;
+        } 
     },
 
-    onToolbarButtonCommand: function(e) 
+    'onMenuItemCommand': function(e) 
+    {
+        alert(this.user);
+        //this.prompt_service.alert(window, "Clipperz User", this.user);
+    },
+
+    'onToolbarButtonCommand': function(e) 
     {
         // just reuse the function above.  you can change this, obviously!
-        clipperzwidget.onMenuItemCommand(e);
+        this.onMenuItemCommand(e);
     },
     
-    show_menu: function(event)
+    'show_menu': function(event)
     {
         // show or hide the menuitem based on what the context menu is on
         document.getElementById("context-clipperzwidget").hidden = gContextMenu.onImage;
     },
     
-    analyse_page: function(aEvent)
+    'analyse_page': function(aEvent)
     {
         var doc = aEvent.originalTarget; // doc is document that triggered the event  
         var win = doc.defaultView; // win is the window for the doc  
@@ -74,14 +70,14 @@ var clipperzwidget =
         //alert("page is loaded \n" +doc.location.href);
     },
     
-    login: function()
+    'login': function()
     {
         var result = new MochiKit.Async.Deferred();
-        
-        
-        this.user = new Clipperz.PM.DataModel.User({username:"daniel", passphrase:"ServerNull1"});
-        
+        var username = this.pref_service.getCharPref("extensions.clipperzwidget.username");
+        var password = this.pref_service.getCharPref("extensions.clipperzwidget.password");
 
+        this.user = new Clipperz.PM.DataModel.User({username:username, passphrase:password});
+       
         result.addCallback(MochiKit.Base.method(this.user, 'connect'));
         result.addCallback(MochiKit.Base.method(this.user, 'loadPreferences'));
         result.addCallback(MochiKit.Base.method(this.user, 'loadRecords'));
@@ -89,18 +85,20 @@ var clipperzwidget =
 
         result.addErrback(function()
         {
-            alert("could not login to clipperz server :-(");
-        });
-
-        result.addCallback(function()
-        {
-            alert("direct logins loaded :-)");
+            this.prompt_service.alert(window,  
+                                      this.strings.getString("login_failed_title"),
+                                      this.strings.getString("login_failed"));
         });
 
         result.callback("token");
-
         return result;
     }
-};
+});
 
-window.addEventListener("load", clipperzwidget.init, false);
+var clipperzwidget;
+window.addEventListener("load", function() 
+{
+    clipperzwidget = new ClipperzWidget();
+    clipperzwidget.init();
+
+}, false);

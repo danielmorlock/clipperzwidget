@@ -3,5 +3,5 @@ skin      clipperzwidget   classic/1.0   chrome/skin/
 locale    clipperzwidget   en-US         chrome/locale/en-US/
 
 
-overlay   chrome://browser/content/browser.xul   chrome://clipperzwidget/content/overlay.xul
+overlay chrome://browser/content/browser.xul chrome://clipperzwidget/content/overlay.xul
 style chrome://global/content/customizeToolbar.xul chrome://clipperzwidget/skin/overlay.css
