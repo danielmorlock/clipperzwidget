@@ -4,7 +4,7 @@ ClipperzWidget = function()
     this.prompt_service = null;
     this.pref_service = null;
     this.error = null;
-    this.direct_logins = null;
+    this.form_actions = {};
     
     return this;
 };
@@ -48,40 +48,14 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         
         try
         {
-            var direct_login_refs = MochiKit.Base.values(this.user.directLoginReferences());
-            //allDirectLogins.sort(this.compareDirectLogins);
-            
-            for(var i in direct_login_refs)
+            //this.load_direct_logins();
+            for(var action in this.form_actions)
             {
-                this.load_direct_login(direct_login_refs[i]);
+                alert(action + " -> " + this.form_actions[action]);
             }
+            
         }
         catch(err) {alert(err);}        
-    },
-    
-    'load_direct_login': function(direct_login_ref)
-    {        
-        var result = new MochiKit.Async.Deferred();
-        
-        result.addCallback(MochiKit.Base.method(direct_login_ref.record(), 'deferredData'));
-        result.addCallback(function(record, reference)
-        {
-            var direct_login = record.directLogins()[reference];
-            dump("direct login: " + direct_login + "\n");
-            dump("form data: " + direct_login.formData() + "\n");
-            dump("action: " + direct_login.formData()["attributes"]["action"]);
-            
-            // READ THIS BEFORE CONTINUING
-            // We now can access direct login data! We should only load data we
-            // need to find a registered website and post-load the user credentials
-            // if the users wants to fetch login data! So the stuff in onMenuItemCommand()
-            // should be moved to the init() function!
-            
-            
-        }, direct_login_ref.record(), direct_login_ref.reference());
-        
-        result.callback();
-        return result;
     },
 
     'onToolbarButtonCommand': function(e) 
@@ -119,6 +93,9 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         result.addCallback(MochiKit.Base.method(this.user, 'loadPreferences'));
         result.addCallback(MochiKit.Base.method(this.user, 'loadRecords'));
         result.addCallback(MochiKit.Base.method(this.user, 'loadDirectLogins'));
+        
+        // Load available direct logins and keep form actions!
+        result.addCallback(MochiKit.Base.method(this, "load_direct_logins"));
 
         result.addErrback(function()
         {
@@ -129,7 +106,42 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
 
         result.callback("token");
         return result;
-    }
+    },
+    
+    'load_direct_logins': function()
+    {        
+        try
+        {
+            var result = new MochiKit.Async.Deferred();
+            var login_refs = MochiKit.Base.values(this.user.directLoginReferences());
+
+            for(var i in login_refs)
+            {
+                result.addCallback(MochiKit.Base.method(login_refs[i].record(), 'deferredData'));
+                result.addCallback(MochiKit.Base.method(this, function(record, reference)
+                {
+                    var direct_login = record.directLogins()[reference];
+                    
+                    // See how we can fetch more data from the login record:
+                    //dump("direct login: " + direct_login + "\n");
+                    //dump("form data: " + direct_login.formData() + "\n");
+                    //dump("action: " + direct_login.formData()["attributes"]["action"]);                    
+                    
+                    // But up to know, the reference mapped to an appropriate
+                    // form action is fine!
+                    this.form_actions[direct_login.formData()["attributes"]["action"]] = reference;
+
+                }), login_refs[i].record(), login_refs[i].reference());
+            }
+
+            result.callback();
+            return result;
+        }
+        catch(error)
+        {
+            dump(error);
+        }
+    }    
 });
 
 var clipperzwidget;
