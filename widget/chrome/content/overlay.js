@@ -4,10 +4,32 @@ ClipperzWidget = function()
     this.prompt_service = null;
     this.pref_service = null;
     this.error = null;
-    this.form_actions = {};
+    
+    this.form_data = {};
     
     return this;
 };
+
+function dumpr(obj, pref)
+{
+    if(pref == undefined)
+        pref = "";
+
+    for(var k in obj)
+    {
+        dump(pref + "key: " + k);
+
+        if(typeof(obj[k]) == "string")
+        {
+            dump(", data: " + obj[k] + "\n");
+        }
+        else 
+        {
+            dump("\n");
+            dumpr(obj[k], pref + "\t");
+        }
+    }
+}
     
 MochiKit.Base.update(ClipperzWidget.prototype, {
     
@@ -49,10 +71,8 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         try
         {
             //this.load_direct_logins();
-            for(var action in this.form_actions)
-            {
-                alert(action + " -> " + this.form_actions[action]);
-            }
+            //for(var action in this.form_actions)
+            dumpr(this.form_data);
             
         }
         catch(err) {alert(err);}        
@@ -79,6 +99,27 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         // if (doc.nodeName == "#document") return; // only documents  
         // if (win != win.top) return; //only top window.  
         // if (win.frameElement) return; // skip iframes/frames  
+        
+        // Match form actions
+        var reference = null;
+        var form_data = null;
+        var forms = doc.getElementsByTagName("form");
+        for(var i in forms)
+        {
+            for(var j in this.form_data)
+            {
+                if(this.form_data[j]["attributes"]["action"] == forms[i].action)
+                {
+                    reference = j;
+                    form_data = this.form_data[j];
+                }
+            }
+        }
+        
+        if(reference == null || form_data == null)
+            return;
+        
+        dump("found registered form action \"" + form_data["attributes"]["action"] + "\"");
     },
     
     'login': function()
@@ -127,9 +168,9 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                     //dump("form data: " + direct_login.formData() + "\n");
                     //dump("action: " + direct_login.formData()["attributes"]["action"]);                    
                     
-                    // But up to know, the reference mapped to an appropriate
-                    // form action is fine!
-                    this.form_actions[direct_login.formData()["attributes"]["action"]] = reference;
+                    // Register relevant data of direct login to locate the 
+                    // login form when analysing the documents.
+                    this.form_data[reference] = direct_login.formData();
 
                 }), login_refs[i].record(), login_refs[i].reference());
             }
