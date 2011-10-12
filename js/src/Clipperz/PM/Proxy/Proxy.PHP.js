@@ -231,7 +231,7 @@ YAHOO.extendX(Clipperz.PM.Proxy.PHP, Clipperz.PM.Proxy, {
 		parameters['parameters'] = MochiKit.Base.serializeJSON(someParameters);
 //MochiKit.Logging.logDebug("--- Proxy.PHP.sendRemoteMessage('" + MochiKit.Base.serializeJSON(parameters) + ") - " + this);
 		deferredResult = new MochiKit.Async.Deferred();
-		deferredResult.addCallback(MochiKit.Async.doXHR, "http://localhost:81/workspace/clipperz/php/index.php", {
+		deferredResult.addCallback(MochiKit.Async.doXHR, "http://192.168.254.1/clipperz/php/index.php", {
 			method:'POST',
 			sendContent:MochiKit.Base.queryString(parameters),
 			headers:{"Content-Type":"application/x-www-form-urlencoded"}

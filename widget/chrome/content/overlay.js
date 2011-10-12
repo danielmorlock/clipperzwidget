@@ -93,7 +93,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
     'analyse_page': function(aEvent)
     {
         var doc = aEvent.originalTarget; // doc is document that triggered the event  
-        var win = doc.defaultView; // win is the window for the doc  
+        //var win = doc.defaultView; // win is the window for the doc  
     
         // test desired conditions and do something  
         // if (doc.nodeName == "#document") return; // only documents  
@@ -101,25 +101,53 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         // if (win.frameElement) return; // skip iframes/frames  
         
         // Match form actions
-        var reference = null;
-        var form_data = null;
         var forms = doc.getElementsByTagName("form");
-        for(var i in forms)
+        for(var i = 0; i < forms.length; i ++)
         {
             for(var j in this.form_data)
             {
                 if(this.form_data[j]["attributes"]["action"] == forms[i].action)
                 {
-                    reference = j;
-                    form_data = this.form_data[j];
+                    this.info("found registered form action \"" + this.form_data[j]["attributes"]["action"] + "\"");
+                    return this.set_form_data(j, forms[i]);
                 }
             }
         }
-        
-        if(reference == null || form_data == null)
-            return;
-        
-        dump("found registered form action \"" + form_data["attributes"]["action"] + "\"");
+    },
+    
+    'set_form_data': function(reference, form)
+    {
+        try
+        {
+            var result = new MochiKit.Async.Deferred();
+            var login_refs = MochiKit.Base.values(this.user.directLoginReferences());
+
+            result.addCallback(MochiKit.Base.method(login_refs[reference].record(), 'deferredData'));
+            result.addCallback(MochiKit.Base.method(this, function(record, reference)
+            {
+                var direct_login = record.directLogins()[reference];
+                
+                for(var i = 0; i < form.elements.length; i ++)
+                {
+                   var input = new Clipperz.PM.DataModel.DirectLoginInput(direct_login, form.elements[i]);
+                   var result = input.formConfiguration();
+                   
+                   form.elements[i].value = result.value;
+                   
+                   if(form.elements[i].type == "password" ||
+                      form.elements[i].type == "text")
+                      form.elements[i].style.backgroundColor = "orange";
+                }
+
+            }), login_refs[reference].record(), login_refs[reference].reference());
+
+            result.callback();
+            return result;
+        }
+        catch(error)
+        {
+            dump(error);
+        }
     },
     
     'login': function()
@@ -134,6 +162,8 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         result.addCallback(MochiKit.Base.method(this.user, 'loadPreferences'));
         result.addCallback(MochiKit.Base.method(this.user, 'loadRecords'));
         result.addCallback(MochiKit.Base.method(this.user, 'loadDirectLogins'));
+        result.addCallback(MochiKit.Base.method(this, function() 
+            { this.info("user logged in successfully"); }));
         
         // Load available direct logins and keep form actions!
         result.addCallback(MochiKit.Base.method(this, "load_direct_logins"));
@@ -157,7 +187,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
             var login_refs = MochiKit.Base.values(this.user.directLoginReferences());
 
             for(var i in login_refs)
-            {
+            {              
                 result.addCallback(MochiKit.Base.method(login_refs[i].record(), 'deferredData'));
                 result.addCallback(MochiKit.Base.method(this, function(record, reference)
                 {
@@ -170,19 +200,42 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                     
                     // Register relevant data of direct login to locate the 
                     // login form when analysing the documents.
-                    this.form_data[reference] = direct_login.formData();
+                    this.form_data[i] = direct_login.formData();
 
                 }), login_refs[i].record(), login_refs[i].reference());
             }
+            
+            result.addCallback(MochiKit.Base.method(this, function()
+                { this.info("direct logins loaded"); }));
 
             result.callback();
             return result;
         }
         catch(error)
         {
-            dump(error);
+            this.error(error);
         }
-    }    
+    },
+    
+    'info': function(msg)
+    {
+        this.log("info", msg);
+    },
+    
+    'error': function(msg)
+    {
+        this.log("error", msg);
+    },
+    
+    'warning': function(msg)
+    {
+        this.log("warning", msg);
+    }, 
+    
+    'log': function(level, msg)
+    {
+        dump("clipperz_widget [" + level + "]: " + msg + "\n");
+    }
 });
 
 var clipperzwidget;
