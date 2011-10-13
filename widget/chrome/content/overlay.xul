@@ -144,6 +144,7 @@
     <script src="scripts/clipperz-0.0.3/Clipperz/PM/Proxy.js"/>
     <script src="scripts/clipperz-0.0.3/Clipperz/PM/Proxy/Proxy.DWR.js"/>
     <script src="scripts/clipperz-0.0.3/Clipperz/PM/Proxy/Proxy.PHP.js"/>
+    <script src="scripts/clipperz-0.0.3/Clipperz/PM/Proxy/Proxy.PHP.Remote.js"/>
     <script src="scripts/clipperz-0.0.3/Clipperz/PM/Proxy/Proxy.Offline.js"/>
     <script src="scripts/clipperz-0.0.3/Clipperz/PM/Connection.js"/>
     <script src="scripts/clipperz-0.0.3/Clipperz/PM/Crypto.js"/>
@@ -171,7 +172,6 @@
     <script src="overlay.js"/>  
     
     <script type="application/javascript">
-        Clipperz.PM.Proxy.defaultProxy = new Clipperz.PM.Proxy.PHP("Proxy.PM.Proxy.PHP");
         Clipperz.Crypto.PRNG.defaultRandomGenerator().fastEntropyAccumulationForTestingPurpose();
     </script>
     

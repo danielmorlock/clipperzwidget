@@ -4,7 +4,7 @@
 <prefwindow id="clipperzwidget-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&prefwindow.title;">
   <prefpane id="pane1" label="&pane1.title;">
     <preferences>
-        <preference id="server" name="extensions.clipperzwidget.server" type="string" />
+        <preference id="url" name="extensions.clipperzwidget.url" type="string" />
         <preference id="username" name="extensions.clipperzwidget.username" type="unichar" />
         <preference id="password" name="extensions.clipperzwidget.password" type="unichar" />
 <!--
@@ -18,8 +18,8 @@
     <label accesskey="&intpref.accesskey;" control="textintpref">&intpref.label;</label><textbox id="textintpref" preference="intpref1"/>
     <label accesskey="&stringpref.accesskey;" control="textstringpref">&stringpref.label;</label><textbox id="textstringpref" preference="stringpref1"/>
 -->
-    <label accesskey="&pref_server.accesskey;" control="pref_server">&pref_server.label;</label>
-    <textbox id="pref_server" preference="server"/>
+    <label accesskey="&pref_url.accesskey;" control="pref_server">&pref_url.label;</label>
+    <textbox id="pref_url" preference="url"/>
     
     <label accesskey="&pref_username.accesskey;" control="pref_username">&pref_username.label;</label>
     <textbox id="pref_username" preference="username"/>

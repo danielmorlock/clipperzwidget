@@ -33,7 +33,7 @@ if (typeof(Clipperz.PM) == 'undefined') { Clipperz.PM = {}; }
 //=============================================================================
 
 Clipperz.PM.Proxy.PHP = function(args) {
-	Clipperz.PM.Proxy.PHP.superclass.constructor.call(this, args);
+	Clipperz.PM.Proxy.PHP.superclass.constructor.call(this, args);        
 /*
 	this._tolls = {
 		'CONNECT':	[],
@@ -41,6 +41,8 @@ Clipperz.PM.Proxy.PHP = function(args) {
 		'MESSAGE':	[]
 	};
 */	
+        
+
 	return this;
 }
 
@@ -202,6 +204,8 @@ YAHOO.extendX(Clipperz.PM.Proxy.PHP, Clipperz.PM.Proxy, {
 	//=========================================================================
 	
 	'sendRemoteMessage': function(aFunctionName, someParameters) {
+            
+            dump("sending remote message\n");
 /*
 		var	deferredResult;
 
@@ -220,7 +224,7 @@ YAHOO.extendX(Clipperz.PM.Proxy.PHP, Clipperz.PM.Proxy, {
 		return deferredResult;
 */
 
-		var	deferredResult;
+		var deferredResult;
 		var parameters;
 		
 //MochiKit.Logging.logDebug(">>> Proxy.PHP.sendRemoteMessage('" + aFunctionName + "', " + MochiKit.Base.serializeJSON(someParameters) + ") - " + this);

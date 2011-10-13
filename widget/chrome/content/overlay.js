@@ -48,6 +48,11 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                                    
             this.prompt_service = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                                             .getService(Components.interfaces.nsIPromptService);
+                
+            // Instantiate default proxy to the clipperz server
+            var url = this.pref_service.getCharPref("extensions.clipperzwidget.url");                           
+            Clipperz.PM.Proxy.defaultProxy = 
+                new Clipperz.PM.Proxy.PHP.Remote("Proxy.PM.Proxy.PHP", url + "/php/index.php");                                            
                                             
             this.login();
         }
