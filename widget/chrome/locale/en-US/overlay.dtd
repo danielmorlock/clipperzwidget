@@ -1,4 +1,6 @@
-<!ENTITY clipperzwidget.label "Your localized menuitem">
+<!ENTITY clipperzwidget.tools.label "Clipperz Widget Options">
+
+
 <!ENTITY clipperzwidgetContext.label "Your Menuitem">
 <!ENTITY clipperzwidgetContext.accesskey "Y">
 <!ENTITY clipperzwidgetToolbarButton.label "Your Toolbar Button">

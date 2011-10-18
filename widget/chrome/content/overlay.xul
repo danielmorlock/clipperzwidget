@@ -182,8 +182,11 @@
     </stringbundleset>
 
     <menupopup id="menu_ToolsPopup">
-        <menuitem id="clipperzwidget-hello" label="&clipperzwidget.label;"
-              oncommand="clipperzwidget.onMenuItemCommand(event);"/>
+        <menuitem label="&clipperzwidget.tools.label;"
+                  insertafter="devToolsSeparator"
+                  image="chrome://clipperzwidget/skin/icon.png"
+                  class="menu-iconic" 
+                  oncommand="clipperzwidget.open_preferences()"/>
     </menupopup>
 
     <popup id="contentAreaContextMenu">

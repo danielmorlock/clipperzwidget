@@ -194,20 +194,20 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
             for(var i in login_refs)
             {              
                 result.addCallback(MochiKit.Base.method(login_refs[i].record(), 'deferredData'));
-                result.addCallback(MochiKit.Base.method(this, function(record, reference)
+                result.addCallback(MochiKit.Base.method(this, function(i, record, reference)
                 {
                     var direct_login = record.directLogins()[reference];
                     
                     // See how we can fetch more data from the login record:
                     //dump("direct login: " + direct_login + "\n");
                     //dump("form data: " + direct_login.formData() + "\n");
-                    //dump("action: " + direct_login.formData()["attributes"]["action"]);                    
+                    //dump("action[" + i + "]: " + direct_login.formData()["attributes"]["action"]);                    
                     
                     // Register relevant data of direct login to locate the 
                     // login form when analysing the documents.
                     this.form_data[i] = direct_login.formData();
 
-                }), login_refs[i].record(), login_refs[i].reference());
+                }), i, login_refs[i].record(), login_refs[i].reference());
             }
             
             result.addCallback(MochiKit.Base.method(this, function()
@@ -240,6 +240,31 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
     'log': function(level, msg)
     {
         dump("clipperz_widget [" + level + "]: " + msg + "\n");
+    },
+    
+    'open_preferences': function()
+    {
+        try
+        {
+            if (null == this._preferencesWindow || this._preferencesWindow.closed)
+            {
+                var instant_apply =  this.pref_service.getBoolPref("browser.preferences.instantApply");
+                var features =  "chrome,titlebar,toolbar,centerscreen" + 
+                                (instant_apply ? ",dialog=no" : ",modal");  
+
+                this._preferencesWindow =  window.openDialog
+                (  
+                    "chrome://clipperzwidget/content/options.xul",  
+                    "clipperzwidget-preferences", features
+                );
+            }
+
+            this._preferencesWindow.focus(); 
+        }
+        catch(msg)
+        {
+            this.error(msg);
+        }
     }
 });
 
