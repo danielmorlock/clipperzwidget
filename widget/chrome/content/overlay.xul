@@ -189,6 +189,7 @@
                   oncommand="clipperzwidget.open_preferences()"/>
     </menupopup>
 
+    <!--
     <popup id="contentAreaContextMenu">
         <menuitem id="context-clipperzwidget" label="&clipperzwidgetContext.label;"
               accesskey="&clipperzwidgetContext.accesskey;"
@@ -207,6 +208,31 @@
             <label value="&clipperzwidgetToolbar.label;"/>
         </toolbar>
     </toolbox>
+    -->
+    
+    <popupset>
+        <menupopup id="statusbar_context" onpopupshowing="" >
+            <menuitem label="&clipperzwidget.statusbar.context.add_login;" 
+                      oncommand="clipperzwidget.add_login()" />
+            <menuseparator/>
+            <menuitem label="&clipperzwidget.statusbar.context.copy_username;" 
+                      oncommand="clipperzwidget.copy_username()" />
+            <menuitem label="&clipperzwidget.statusbar.context.copy_password;" 
+                      oncommand="clipperzwidget.copy_password()" />
+            <menuseparator/>
+            <menuitem label="&clipperzwidget.statusbar.context.go_home;" 
+                      oncommand="clipperzwidget.go_home()" />        
 
+        </menupopup>
+   </popupset>
+
+   <statusbar id="status-bar">
+         <statusbarpanel 
+            context="statusbar_context"
+            class="statusbarpanel-menu-iconic" 
+            id="test_status"
+            src="chrome://clipperzwidget/skin/icon.png" 
+            onclick="clipperzwidget.go_home()" />
+   </statusbar>
 
 </overlay>

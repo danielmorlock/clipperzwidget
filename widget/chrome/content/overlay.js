@@ -265,6 +265,26 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         {
             this.error(msg);
         }
+    },
+    
+    'go_home': function()
+    {
+        openUILinkIn(this.pref_service.getCharPref("extensions.clipperzwidget.url"), "tab");
+    },
+    
+    'add_login': function()
+    {
+        dump("add_login");
+    },
+    
+    'copy_username': function()
+    {
+        dump("copy_username");
+    },
+    
+    'copy_password': function()
+    {
+        dump("copy_password");
     }
 });
 
