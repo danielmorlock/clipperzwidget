@@ -211,7 +211,14 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
             }
             
             result.addCallback(MochiKit.Base.method(this, function()
-                { this.info("direct logins loaded"); }));
+            {
+                this.info("direct logins loaded"); 
+                
+                // Enable statusbar icon
+                document.getElementById("clipperz_statusbarpanel").src = 
+                    "chrome://clipperzwidget/skin/icon.png" 
+            
+            }));
 
             result.callback();
             return result;

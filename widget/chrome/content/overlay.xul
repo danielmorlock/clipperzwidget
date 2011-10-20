@@ -230,9 +230,9 @@
          <statusbarpanel 
             context="statusbar_context"
             class="statusbarpanel-menu-iconic" 
-            id="test_status"
-            src="chrome://clipperzwidget/skin/icon.png" 
-            onclick="clipperzwidget.go_home()" />
+            id="clipperz_statusbarpanel"
+            src="chrome://clipperzwidget/skin/icon_disabled.png" 
+            onclick="if (event.button == 0) clipperzwidget.go_home();" />
    </statusbar>
 
 </overlay>
