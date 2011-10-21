@@ -217,7 +217,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                 
                 // Enable statusbar icon
                 document.getElementById("clipperz_statusbarpanel").src = 
-                    "chrome://clipperzwidget/skin/icon.png" 
+                    "chrome://clipperzwidget/skin/icon_status_enabled.png" 
             
             }));
 

@@ -223,7 +223,7 @@
             context="statusbar_context"
             class="statusbarpanel-menu-iconic" 
             id="clipperz_statusbarpanel"
-            src="chrome://clipperzwidget/skin/icon_disabled.png" 
+            src="chrome://clipperzwidget/skin/icon_status_disabled.png" 
             onclick="if (event.button == 0) clipperzwidget.go_home();" />
    </statusbar>
 
