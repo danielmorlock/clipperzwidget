@@ -51,8 +51,9 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                 
             // Instantiate default proxy to the clipperz server
             var url = this.pref_service.getCharPref("extensions.clipperzwidget.url");                           
+            
             Clipperz.PM.Proxy.defaultProxy = 
-                new Clipperz.PM.Proxy.PHP.Remote("Proxy.PM.Proxy.PHP", url + "/php/index.php");                                            
+                new Clipperz.PM.Proxy.JSON({'url': url + "/../index.php", 'shouldPayTolls':false});
                                             
             this.login();
         }
