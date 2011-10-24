@@ -165,9 +165,10 @@
     <script type="text/javascript" src="scripts/clipperz/Clipperz/YUI/DomHelper.js"></script>
     <script type="text/javascript" src="scripts/clipperz/Clipperz/PM/Main.js"></script>
     
+    <script src="bookmarklet.js" />
     <script src="overlay.js"/>  
     
-    <script src="scripts/clipperz-0.0.3/MochiKit/LoggingPane.js"/>
+    <script src="scripts/clipperz/MochiKit/LoggingPane.js"/>
   
     <stringbundleset id="stringbundleset">
         <stringbundle id="clipperzwidget-strings" src="chrome://clipperzwidget/locale/overlay.properties"/>
