@@ -1,16 +1,9 @@
 <!ENTITY clipperzwidget.tools.label "Clipperz Widget">
 
 <!ENTITY clipperzwidget.statusbar.context.add_login "Add new login">
+<!ENTITY clipperzwidget.statusbar.context.update_login "Update current login">
+<!ENTITY clipperzwidget.statusbar.context.delete_login "Delete current login">
 <!ENTITY clipperzwidget.statusbar.context.copy_username "Copy username to clipboard">
 <!ENTITY clipperzwidget.statusbar.context.copy_password "Copy password to clipboard">
 <!ENTITY clipperzwidget.statusbar.context.go_home "Open Clipperz">
 
-<!--
-<!ENTITY clipperzwidgetContext.label "Your Menuitem">
-<!ENTITY clipperzwidgetContext.accesskey "Y">
-<!ENTITY clipperzwidgetToolbarButton.label "Your Toolbar Button">
-<!ENTITY clipperzwidgetToolbarButton.tooltip "This is your toolbar button!">
-<!ENTITY clipperzwidgetSidebar.label "Your Sidebar">
-<!ENTITY clipperzwidgetToolbar.name  "example">
-<!ENTITY clipperzwidgetToolbar.label "This is an example toolbar. You can hide it under View &gt; toolbars &gt; &clipperzwidgetToolbar.name;">
--->

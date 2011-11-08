@@ -34,7 +34,7 @@ function dumpr(obj, pref)
 MochiKit.Base.update(ClipperzWidget.prototype, {
     
     'init': function()
-    {
+    {        
         this.initialized = true;
         this.strings = document.getElementById("clipperzwidget-strings");
 
@@ -54,7 +54,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
             
             Clipperz.PM.Proxy.defaultProxy = 
                 new Clipperz.PM.Proxy.JSON({'url': url + "/../index.php", 'shouldPayTolls':false});
-                                            
+
             this.login();
         }
         catch(error)
@@ -70,6 +70,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         }        
     },
 
+    /*
     'onMenuItemCommand': function(e) 
     {
         //this.prompt_service.alert(window, "Clipperz User", this.user);
@@ -83,18 +84,21 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         }
         catch(err) {alert(err);}        
     },
-
+    */
+    /*
     'onToolbarButtonCommand': function(e) 
     {
         // just reuse the function above.  you can change this, obviously!
         this.onMenuItemCommand(e);
     },
-    
+    */
+   
+    /*
     'show_menu': function(event)
     {
         // show or hide the menuitem based on what the context menu is on
         document.getElementById("context-clipperzwidget").hidden = gContextMenu.onImage;
-    },
+    },*/
     
     'analyse_page': function(e)
     {
@@ -145,6 +149,12 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                 {
                     this.info("found registered form action \"" + 
                         this.form_data[j]["attributes"]["action"] + "\"");
+                    
+                    // Enable context menu buttons
+                    document.getElementById("copy_username").disabled = false;
+                    document.getElementById("copy_password").disabled = false;
+                    document.getElementById("login_action").value = 
+                        this.strings.getString("clipperzwidget.statusbar.context.update_login");
                     
                     return this.set_form_data(j, forms[i]);
                 }
@@ -210,8 +220,8 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         result.addErrback(function()
         {
             this.prompt_service.alert(window,  
-                                      this.strings.getString("login_failed_title"),
-                                      this.strings.getString("login_failed"));
+                                      this.strings.getString("clipperzwidget.error.login_failed"),
+                                      this.strings.getString("clipperzwidget.error.db_conn"));
         });
 
         result.callback("token");
@@ -254,6 +264,9 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                 // Enable statusbar icon
                 document.getElementById("clipperz_statusbarpanel").src = 
                     "chrome://clipperzwidget/skin/icon_status_enabled.png" 
+                
+                // Enable context menu button
+                document.getElementById("login_action").disabled = false;
             
             }));
 

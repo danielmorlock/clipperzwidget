@@ -1,11 +1,10 @@
-<!ENTITY prefwindow.title "Clipperz Widget Preferences">
-<!ENTITY pane1.title "Clipperz Widget Preferences">
+<!ENTITY clipperzwidget.preferences.title "Clipperz Widget Preferences">
 
-<!ENTITY pref_url.label "Clipperz Server URL">
-<!ENTITY pref_url.accesskey "S">
+<!ENTITY clipperzwidget.preferences.url.label "Clipperz Server URL">
+<!ENTITY clipperzwidget.preferences.url.accesskey "S">
 
-<!ENTITY pref_username.label "Username">
-<!ENTITY pref_username.accesskey "U">
+<!ENTITY clipperzwidget.preferences.username.label "Username">
+<!ENTITY clipperzwidget.preferences.username.accesskey "U">
 
-<!ENTITY pref_password.label "Password">
-<!ENTITY pref_password.accesskey "P">
+<!ENTITY clipperzwidget.preferences.password.label "Password">
+<!ENTITY clipperzwidget.preferences.password.accesskey "P">

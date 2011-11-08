@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <!DOCTYPE prefwindow SYSTEM "chrome://clipperzwidget/locale/options.dtd">
-<prefwindow id="clipperzwidget-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&prefwindow.title;">
-  <prefpane id="pane1" label="&pane1.title;">
+<prefwindow id="clipperzwidget-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&clipperzwidget.preferences.title;">
+  <prefpane id="pane1" label="&clipperzwidget.preferences.title;">
     <preferences>
         <preference id="url" name="extensions.clipperzwidget.url" type="string" />
         <preference id="username" name="extensions.clipperzwidget.username" type="unichar" />
@@ -18,14 +18,14 @@
     <label accesskey="&intpref.accesskey;" control="textintpref">&intpref.label;</label><textbox id="textintpref" preference="intpref1"/>
     <label accesskey="&stringpref.accesskey;" control="textstringpref">&stringpref.label;</label><textbox id="textstringpref" preference="stringpref1"/>
 -->
-    <label accesskey="&pref_url.accesskey;" control="pref_server">&pref_url.label;</label>
+    <label accesskey="&clipperzwidget.preferences.url.accesskey;" control="pref_server">&clipperzwidget.preferences.url.label;</label>
     <textbox id="pref_url" preference="url"/>
     
-    <label accesskey="&pref_username.accesskey;" control="pref_username">&pref_username.label;</label>
+    <label accesskey="&clipperzwidget.preferences.username.accesskey;" control="pref_username">&clipperzwidget.preferences.username.label;</label>
     <textbox id="pref_username" preference="username"/>
     
-    <label accesskey="&pref_password.accesskey;" control="pref_password">&pref_password.label;</label>
-    <textbox type="password" id="pref_password" preference="password"/>
+    <label accesskey="&clipperzwidget.preferences.password.accesskey;" control="pref_password">&clipperzwidget.preferences.password.label;</label>
+    <textbox id="pref_password" type="password" preference="password"/>
     
   </prefpane>
 </prefwindow>

@@ -205,13 +205,19 @@
     
     <popupset>
         <menupopup id="statusbar_context" onpopupshowing="" >
-            <menuitem label="&clipperzwidget.statusbar.context.add_login;" 
-                      oncommand="clipperzwidget.add_login()" />
+            <menuitem id="login_action"
+                      label="&clipperzwidget.statusbar.context.add_login;" 
+                      oncommand="clipperzwidget.add_login()" 
+                      disabled="true" />
             <menuseparator/>
-            <menuitem label="&clipperzwidget.statusbar.context.copy_username;" 
-                      oncommand="clipperzwidget.copy_username()" />
-            <menuitem label="&clipperzwidget.statusbar.context.copy_password;" 
-                      oncommand="clipperzwidget.copy_password()" />
+            <menuitem id="copy_username"
+                      label="&clipperzwidget.statusbar.context.copy_username;" 
+                      oncommand="clipperzwidget.copy_username()" 
+                      disabled="true" />
+            <menuitem id="copy_password"
+                      label="&clipperzwidget.statusbar.context.copy_password;" 
+                      oncommand="clipperzwidget.copy_password()" 
+                      disabled="true" />
             <menuseparator/>
             <menuitem label="&clipperzwidget.statusbar.context.go_home;" 
                       oncommand="clipperzwidget.go_home()" />        
