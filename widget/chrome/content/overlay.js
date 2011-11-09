@@ -67,7 +67,11 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         {
             gBrowser.addEventListener("DOMContentLoaded", 
                 MochiKit.Base.bind(this.analyse_page, this), false);
-        }        
+                
+            var container = gBrowser.tabContainer;  
+            container.addEventListener("TabSelect", MochiKit.Base.bind(
+                function(){ this.find_forms(content.document);}, this), false);
+        }
     },
 
     /*
@@ -150,16 +154,16 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                     this.info("found registered form action \"" + 
                         this.form_data[j]["attributes"]["action"] + "\"");
                     
-                    // Enable context menu buttons
-                    document.getElementById("copy_username").disabled = false;
-                    document.getElementById("copy_password").disabled = false;
-                    document.getElementById("login_action").value = 
-                        this.strings.getString("clipperzwidget.statusbar.context.update_login");
-                    
+                    // Adjust context menu
+                    this.set_context(true);
+                                        
                     return this.set_form_data(j, forms[i]);
                 }
             }
         }
+        
+        // No login found, adjust context menu
+        this.set_context(false);       
         
         return null;
     },
@@ -265,8 +269,8 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                 document.getElementById("clipperz_statusbarpanel").src = 
                     "chrome://clipperzwidget/skin/icon_status_enabled.png" 
                 
-                // Enable context menu button
-                document.getElementById("login_action").disabled = false;
+                this.set_context(false);
+                
             
             }));
 
@@ -277,6 +281,37 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         {
             this.error(error);
         }
+    },
+    
+    'set_context': function(login_found)
+    {        
+        // Disable and hide all buttons
+        document.getElementById("copy_username").disabled = true;
+        document.getElementById("copy_password").disabled = true;
+        
+        document.getElementById("add_login").disabled = true;
+        document.getElementById("update_login").disabled = true;
+        document.getElementById("delete_login").disabled = true;
+        document.getElementById("add_login").hidden = true;
+        document.getElementById("update_login").hidden = true;
+        document.getElementById("delete_login").hidden = true;  
+        
+        if(login_found)
+        {
+            document.getElementById("copy_username").disabled = false;
+            document.getElementById("copy_password").disabled = false;
+            
+            document.getElementById("update_login").disabled = false;
+            document.getElementById("delete_login").disabled = false;
+            document.getElementById("update_login").hidden = false;
+            document.getElementById("delete_login").hidden = false;  
+        }
+        else
+        {
+            document.getElementById("add_login").disabled = false;
+            document.getElementById("add_login").hidden = false;      
+        }
+        
     },
     
     'debug': function(msg)

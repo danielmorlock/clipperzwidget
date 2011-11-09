@@ -205,10 +205,21 @@
     
     <popupset>
         <menupopup id="statusbar_context" onpopupshowing="" >
-            <menuitem id="login_action"
+            <menuitem id="add_login"
                       label="&clipperzwidget.statusbar.context.add_login;" 
                       oncommand="clipperzwidget.add_login()" 
-                      disabled="true" />
+                      disabled="true" 
+                      hidden="true"/>
+            <menuitem id="update_login"
+                      label="&clipperzwidget.statusbar.context.update_login;" 
+                      oncommand="clipperzwidget.update_login()" 
+                      disabled="true" 
+                      hidden="true"/>                      
+            <menuitem id="delete_login"
+                      label="&clipperzwidget.statusbar.context.delete_login;" 
+                      oncommand="clipperzwidget.delete_login()" 
+                      disabled="true" 
+                      hidden="true"/>                                            
             <menuseparator/>
             <menuitem id="copy_username"
                       label="&clipperzwidget.statusbar.context.copy_username;" 
