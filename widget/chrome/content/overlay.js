@@ -7,6 +7,10 @@ ClipperzWidget = function()
     
     this.form_data = {};
     
+    // This will be defined if the currently selected page has a registered login!
+    this.cur_reference = null;
+    this.cur_form = null;
+    
     return this;
 };
 
@@ -69,8 +73,8 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                 MochiKit.Base.bind(this.analyse_page, this), false);
                 
             var container = gBrowser.tabContainer;  
-            container.addEventListener("TabSelect", MochiKit.Base.bind(
-                function(){ this.find_forms(content.document);}, this), false);
+            container.addEventListener("TabSelect", 
+                MochiKit.Base.bind(this.analyse_page, this), false);
         }
     },
 
@@ -114,35 +118,42 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         // if (win != win.top) return; //only top window.  
         // if (win.frameElement) return; // skip iframes/frames  
         
-        return this.find_forms(e.originalTarget);
-    },
-    
-    'analyse_pages': function()
-    {
-        var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]  
-                           .getService(Components.interfaces.nsIWindowMediator);  
-                                                          
-        var iter = wm.getEnumerator("navigator:browser");  
-
-        while(iter.hasMoreElements())
+        if(this.find_form(content.document))
         {
-            var gbrowser = iter.getNext().gBrowser;
-            for (var i = 0; i < gbrowser.browsers.length; i++)
-            {  
-                var b = gBrowser.getBrowserAtIndex(i);  
-                try
-                { 
-                    this.find_forms(b.contentDocument);
-                }
-                catch(msg)
-                {
-                    this.wwarning(msg);
-                }
-            }
+            this.set_form_data();
         }
+        else
+        {
+            // Nothing found, so remove clipperz hint e.g. from currently
+            // deleted logins!
+            this.clear_page();
+        }
+        
+        this.set_context();
     },
     
-    'find_forms': function(doc)
+    'clear_page': function()
+    {
+        try{
+        var forms = content.document.getElementsByTagName("form");
+        
+        for(var i = 0; i < forms.length; i ++)
+        {
+            var form = forms[i];
+            for(var j = 0; j < form.elements.length; j ++)
+            {
+                if(form.elements[j].type == "password" ||
+                  form.elements[j].type == "text")
+                {
+                  form.elements[j].style.backgroundColor = 
+                      form.elements[j].style.backgroundColor.replace("orange", "");
+                }
+            }        
+        }
+        }catch(e){this.error(e);}
+    },
+    
+    'find_form': function(doc)
     {
         var forms = doc.getElementsByTagName("form");
         for(var i = 0; i < forms.length; i ++)
@@ -151,56 +162,61 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
             {
                 if(this.form_data[j]["attributes"]["action"] == forms[i].action)
                 {
-                    this.info("found registered form action \"" + 
-                        this.form_data[j]["attributes"]["action"] + "\"");
+                    this.debug(
+                        "found registered form action \"" + 
+                        this.form_data[j]["attributes"]["action"] + "\", " +
+                        "login reference " + j);
                     
-                    // Adjust context menu
-                    this.set_context(true);
-                                        
-                    return this.set_form_data(j, forms[i]);
+                    this.cur_form = forms[i];
+                    this.cur_reference = j;
+                    
+                    // Currently we do only support one login per page!
+                    return true;
                 }
             }
         }
         
-        // No login found, adjust context menu
-        this.set_context(false);       
+        // No logins found.
+        this.cur_form = null;
+        this.cur_reference = null;
         
-        return null;
+        return false;
     },
     
-    'set_form_data': function(reference, form)
+    'set_form_data': function()
     {
-        try
+        if(this.cur_reference == null)
         {
-            var result = new MochiKit.Async.Deferred();
-            var login_refs = MochiKit.Base.values(this.user.directLoginReferences());
+            this.warning("no login reference to set form data, ignore");
+            return null;
+        }
+        
+        var result = new MochiKit.Async.Deferred();
+        var login_refs = MochiKit.Base.values(this.user.directLoginReferences());
+        var reference = this.cur_reference;
+        var form = this.cur_form;
 
-            result.addCallback(MochiKit.Base.method(login_refs[reference].record(), 'deferredData'));
-            result.addCallback(MochiKit.Base.method(this, function(record, reference)
+        result.addCallback(MochiKit.Base.method(login_refs[reference].record(), 'deferredData'));
+        result.addCallback(MochiKit.Base.method(this, function(record, reference)
+        {
+            var direct_login = record.directLogins()[reference];
+
+            for(var i = 0; i < form.elements.length; i ++)
             {
-                var direct_login = record.directLogins()[reference];
-                
-                for(var i = 0; i < form.elements.length; i ++)
-                {
-                   var input = new Clipperz.PM.DataModel.DirectLoginInput(direct_login, form.elements[i]);
-                   var result = input.formConfiguration();
-                   
-                   form.elements[i].value = result.value;
-                   
-                   if(form.elements[i].type == "password" ||
-                      form.elements[i].type == "text")
-                      form.elements[i].style.backgroundColor = "orange";
-                }
+               var input = new Clipperz.PM.DataModel.DirectLoginInput(direct_login, form.elements[i]);
+               var result = input.formConfiguration();
 
-            }), login_refs[reference].record(), login_refs[reference].reference());
+               form.elements[i].value = result.value;
 
-            result.callback();
-            return result;
-        }
-        catch(error)
-        {
-            dump(error);
-        }
+               if(form.elements[i].type == "password" ||
+                  form.elements[i].type == "text")
+                  form.elements[i].style.backgroundColor = "orange";
+            }
+
+        }), login_refs[reference].record(), login_refs[reference].reference());
+
+        result.callback();
+        return result;
     },
     
     'login': function()
@@ -243,7 +259,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
             var login_refs = MochiKit.Base.values(this.user.directLoginReferences());
 
             for(var i in login_refs)
-            {              
+            {             
                 result.addCallback(MochiKit.Base.method(login_refs[i].record(), 'deferredData'));
                 result.addCallback(MochiKit.Base.method(this, function(i, record, reference)
                 {
@@ -260,18 +276,14 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
 
                 }), i, login_refs[i].record(), login_refs[i].reference());
             }
-            result.addCallback(MochiKit.Base.method(this, 'analyse_pages'));
+            result.addCallback(MochiKit.Base.method(this, 'analyse_page'));
             result.addCallback(MochiKit.Base.method(this, function()
             {
                 this.info("direct logins loaded"); 
                 
                 // Enable statusbar icon
                 document.getElementById("clipperz_statusbarpanel").src = 
-                    "chrome://clipperzwidget/skin/icon_status_enabled.png" 
-                
-                this.set_context(false);
-                
-            
+                    "chrome://clipperzwidget/skin/icon_status_enabled.png"
             }));
 
             result.callback();
@@ -283,7 +295,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         }
     },
     
-    'set_context': function(login_found)
+    'set_context': function()
     {        
         // Disable and hide all buttons
         document.getElementById("copy_username").disabled = true;
@@ -296,7 +308,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         document.getElementById("update_login").hidden = true;
         document.getElementById("delete_login").hidden = true;  
         
-        if(login_found)
+        if(this.cur_reference != null)
         {
             document.getElementById("copy_username").disabled = false;
             document.getElementById("copy_password").disabled = false;
@@ -422,9 +434,50 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         }
         catch(msg)
         {
-            this.error("error while adding result: " + msg);
+            this.error("error while adding login: " + msg);
+            return null;
         }
     },
+    
+    'delete_login': function()
+    {
+        if(this.cur_reference == null)
+        {
+            this.warning("no login reference to delete, ignore");
+            return null;
+        }
+        
+        try
+        {               
+            var result = new MochiKit.Async.Deferred();
+            var login_refs = MochiKit.Base.values(this.user.directLoginReferences());
+            var reference = this.cur_reference;
+            
+            this.debug("delete login, reference " + reference);
+
+            result.addCallback(MochiKit.Base.method(login_refs[reference].record(), "deferredData"));
+            result.addCallback(MochiKit.Base.method(login_refs[reference].record(), "remove"));
+            result.addCallback(MochiKit.Base.method(login_refs[reference].record(), 'saveChanges'));
+            result.addCallback(MochiKit.Base.method(this, "load_direct_logins"));
+            result.addCallback(MochiKit.Base.method(this, function()
+            {
+                this.info("login deleted"); 
+            }));            
+            result.addErrback(MochiKit.Base.method(this, function(msg) 
+            {
+                this.error("could not delete record: " + msg);
+            }));            
+            result.addCallback(MochiKit.Base.method(this, 'analyse_page'));
+
+            result.callback();
+            return result;
+        }
+        catch(msg)
+        {
+            this.error("error while deleting login: " + msg);
+            return null;
+        }
+    },    
     
     'copy_username': function()
     {
