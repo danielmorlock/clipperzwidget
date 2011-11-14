@@ -3,6 +3,7 @@ ClipperzWidget = function()
     this.user = null;
     this.prompt_service = null;
     this.pref_service = null;
+    this.clipboard_service = null;
     this.error = null;
     
     this.form_data = {};
@@ -48,10 +49,13 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         try
         {
             this.pref_service = Components.classes["@mozilla.org/preferences-service;1"]
-                                          .getService(Components.interfaces.nsIPrefBranch);    
+                .getService(Components.interfaces.nsIPrefBranch);    
                                    
             this.prompt_service = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-                                            .getService(Components.interfaces.nsIPromptService);
+                .getService(Components.interfaces.nsIPromptService);
+                                            
+            this.clipboard_service = Components.classes["@mozilla.org/widget/clipboardhelper;1"]
+                .getService(Components.interfaces.nsIClipboardHelper);  
                 
             // Instantiate default proxy to the clipperz server
             var url = this.pref_service.getCharPref("extensions.clipperzwidget.url");                           
@@ -187,7 +191,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
     {
         if(this.cur_reference == null)
         {
-            this.warning("no login reference to set form data, ignore");
+            this.warning("missing login reference to set form data, ignore");
             return null;
         }
         
@@ -443,7 +447,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
     {
         if(this.cur_reference == null)
         {
-            this.warning("no login reference to delete, ignore");
+            this.warning("missing login reference to delete, ignore");
             return null;
         }
         
@@ -477,16 +481,86 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
             this.error("error while deleting login: " + msg);
             return null;
         }
+        
+        return null;
     },    
     
     'copy_username': function()
     {
-        dump("copy_username");
+        if(this.cur_reference == null)
+        {
+            this.warning("missing login reference to copy username from, ignore");
+            return null;
+        }
+        
+        var result = new MochiKit.Async.Deferred();
+        var login_refs = MochiKit.Base.values(this.user.directLoginReferences());
+        var reference = this.cur_reference;
+        var form = this.cur_form;
+
+        result.addCallback(MochiKit.Base.method(login_refs[reference].record(), 'deferredData'));
+        result.addCallback(MochiKit.Base.method(this, function(record)
+        {
+            var fields = record.currentVersion().fields();
+            
+            for(var i in fields)
+            {
+                var field = fields[i];
+                
+                // TODO: We will copy the first "TXT" record as username to the 
+                // clipboard. This might become problematic if more than one 
+                // TXT fields are stored.
+                if(field.type() == "TXT")
+                {
+                    this.debug("assume field \"" + field.label() + "\" as username");
+                    this.clipboard_service.copyString(field.value());
+                    return;
+                }
+            }
+
+        }), login_refs[reference].record());
+
+        result.callback();
+        return result;
     },
     
     'copy_password': function()
     {
-        dump("copy_password");
+        if(this.cur_reference == null)
+        {
+            this.warning("missing login reference to copy password from, ignore");
+            return null;
+        }
+        
+        var result = new MochiKit.Async.Deferred();
+        var login_refs = MochiKit.Base.values(this.user.directLoginReferences());
+        var reference = this.cur_reference;
+        var form = this.cur_form;
+
+        result.addCallback(MochiKit.Base.method(login_refs[reference].record(), 'deferredData'));
+        result.addCallback(MochiKit.Base.method(this, function(record)
+        {
+            var fields = record.currentVersion().fields();
+            
+            for(var i in fields)
+            {
+                var field = fields[i];
+                
+                // TODO: We will copy the first "PWD" record as password to the 
+                // clipboard. This might become problematic if more than one 
+                // PWD fields are stored.
+                if(field.type() == "PWD") 
+                {
+                    this.debug("assume field \"" + field.label() + "\" as password");
+                    this.clipboard_service.copyString(field.value());
+                    return;
+                }
+            }
+
+        }), login_refs[reference].record());
+
+        result.callback();
+        return result;
     }
 });
 
