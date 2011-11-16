@@ -230,8 +230,8 @@
                       oncommand="clipperzwidget.copy_password()" 
                       disabled="true" />
             <menuseparator/>
-            <menuitem label="&clipperzwidget.statusbar.context.go_home;" 
-                      oncommand="clipperzwidget.go_home()" />        
+            <menuitem label="&clipperzwidget.statusbar.context.open_gui;" 
+                      oncommand="clipperzwidget.open_gui()" />        
 
         </menupopup>
    </popupset>
@@ -242,7 +242,7 @@
             class="statusbarpanel-menu-iconic" 
             id="clipperz_statusbarpanel"
             src="chrome://clipperzwidget/skin/icon_status_disabled.png" 
-            onclick="if (event.button == 0) clipperzwidget.go_home();" />
+            onclick="if (event.button == 0) clipperzwidget.open_gui();" />
    </statusbar>
 
 </overlay>

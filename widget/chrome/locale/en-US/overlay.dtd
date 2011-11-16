@@ -5,5 +5,5 @@
 <!ENTITY clipperzwidget.statusbar.context.delete_login "Delete current login">
 <!ENTITY clipperzwidget.statusbar.context.copy_username "Copy username to clipboard">
 <!ENTITY clipperzwidget.statusbar.context.copy_password "Copy password to clipboard">
-<!ENTITY clipperzwidget.statusbar.context.go_home "Open Clipperz">
+<!ENTITY clipperzwidget.statusbar.context.open_gui "Open Clipperz">
 

@@ -5,12 +5,16 @@ ClipperzWidget = function()
     this.pref_service = null;
     this.clipboard_service = null;
     this.error = null;
+    this.gui = null;
     
     this.form_data = {};
     
     // This will be defined if the currently selected page has a registered login!
     this.cur_reference = null;
     this.cur_form = null;
+    
+    // Indicates a remote login to the clipperz gui, see ClipperzWidget.go_home().
+    this.do_login = false;
     
     return this;
 };
@@ -248,6 +252,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                                       this.strings.getString("clipperzwidget.error.db_conn"));
         });
 
+        this.debug("starting callback");
         result.callback("token");
         return result;
     },
@@ -380,9 +385,62 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         }
     },
     
-    'go_home': function()
+    'open_gui': function()
     {
-        openUILinkIn(this.pref_service.getCharPref("extensions.clipperzwidget.url"), "tab");
+        if(this.gui == null)
+        {
+            this.gui = gBrowser.addTab(this.pref_service.getCharPref("extensions.clipperzwidget.url")); // + "/index_debug.html");
+            var tab_browser = gBrowser.getBrowserForTab(this.gui); 
+            this.do_login = true;
+            
+            tab_browser.addEventListener("DOMContentLoaded", MochiKit.Base.bind(function()
+            {
+                if(this.do_login == false)
+                    return;
+                
+                this.do_login = false;
+                
+                var input_username = content.document.createElement("input");
+                input_username.type = "password";
+                input_username.value =  this.pref_service.getCharPref("extensions.clipperzwidget.username");
+                input_username.id = "clipperzwidget_username";
+                input_username.style.visibility = "hidden";
+                
+                var input_password = content.document.createElement("input");
+                input_password.type = "password";
+                input_password.value =  this.pref_service.getCharPref("extensions.clipperzwidget.password");
+                input_password.id = "clipperzwidget_password"
+                input_password.style.visibility = "hidden";
+                
+                var script = content.document.createElement("script");
+                script.type="text/javascript";
+                script.innerHTML = 
+                    "var main; "+
+                    "Clipperz.PM.Strings.Languages.initSetup();"+
+                    "main = new Clipperz.PM.Main();"+
+                    "main.run();"+
+                    "Clipperz.PM.defaultErrorHandler = main.defaultErrorHandler;"+
+                    "MochiKit.Async.callLater(0.1, "+
+                        "MochiKit.Base.bind("+
+                            "main.loginPanel().doLoginWithUsernameAndPassphrase, "+
+                            "main.loginPanel()),"+
+                        "document.getElementById('clipperzwidget_username').value, "+
+                        "document.getElementById('clipperzwidget_password').value);";
+                
+                content.document.getElementsByTagName("body")[0].appendChild(input_username);
+                content.document.getElementsByTagName("body")[0].appendChild(input_password);
+                content.document.getElementsByTagName("head")[0].appendChild(script);
+                
+            }, this), false);
+            
+            this.gui.addEventListener("TabClose", MochiKit.Base.bind(function()
+            {
+                this.gui = null;
+                
+            }, this), false);
+        }
+        
+        gBrowser.selectedTab = this.gui;        
     },
     
     'add_login': function()
