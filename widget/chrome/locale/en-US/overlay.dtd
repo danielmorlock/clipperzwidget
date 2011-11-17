@@ -7,3 +7,4 @@
 <!ENTITY clipperzwidget.statusbar.context.copy_password "Copy password to clipboard">
 <!ENTITY clipperzwidget.statusbar.context.open_gui "Open Clipperz">
 
+<!ENTITY clipperzwidget.content.context.random_password "Paste random password">

@@ -44,14 +44,14 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
     
     'init': function()
     {        
-        this.initialized = true;
-        this.strings = document.getElementById("clipperzwidget-strings");
-
-        document.getElementById("contentAreaContextMenu")
-                .addEventListener("popupshowing", this.show_menu, false);
-        
         try
         {
+            this.initialized = true;
+            this.strings = document.getElementById("clipperzwidget-strings");
+
+            document.getElementById("contentAreaContextMenu")
+                    .addEventListener("popupshowing", this.handle_content_context, false);
+                
             this.pref_service = Components.classes["@mozilla.org/preferences-service;1"]
                 .getService(Components.interfaces.nsIPrefBranch);    
                                    
@@ -68,22 +68,22 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                 new Clipperz.PM.Proxy.JSON({'url': url + "/../index.php", 'shouldPayTolls':false});
 
             this.login();
+            
+            // The event can be DOMContentLoaded, pageshow, pagehide, load or unload. 
+            if(gBrowser)
+            {
+                gBrowser.addEventListener("DOMContentLoaded", 
+                    MochiKit.Base.bind(this.analyse_page, this), false);
+
+                var container = gBrowser.tabContainer;  
+                container.addEventListener("TabSelect", 
+                    MochiKit.Base.bind(this.analyse_page, this), false);
+            }            
         }
         catch(error)
         {
-            this.error = error;
+            this.error(error);
         } 
-        
-        // The event can be DOMContentLoaded, pageshow, pagehide, load or unload. 
-        if(gBrowser)
-        {
-            gBrowser.addEventListener("DOMContentLoaded", 
-                MochiKit.Base.bind(this.analyse_page, this), false);
-                
-            var container = gBrowser.tabContainer;  
-            container.addEventListener("TabSelect", 
-                MochiKit.Base.bind(this.analyse_page, this), false);
-        }
     },
 
     /*
@@ -109,12 +109,15 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
     },
     */
    
-    /*
-    'show_menu': function(event)
+    'handle_content_context': function()
     {
-        // show or hide the menuitem based on what the context menu is on
-        document.getElementById("context-clipperzwidget").hidden = gContextMenu.onImage;
-    },*/
+        document.getElementById("context_random_password").hidden = !gContextMenu.onTextInput;
+    },
+    
+    'paste_random_password': function()
+    {
+        gContextMenu.target.value = "password :-)";
+    },
     
     'analyse_page': function(e)
     {

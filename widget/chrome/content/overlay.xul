@@ -181,15 +181,15 @@
                   class="menu-iconic" 
                   oncommand="clipperzwidget.open_preferences()"/>
     </menupopup>
+    
+    <popup id="contentAreaContextMenu">
+        <menuitem id="context_random_password" 
+                  label="&clipperzwidget.content.context.random_password;"
+                  insertafter="context-sep-paste"
+                  oncommand="clipperzwidget.paste_random_password()"/>
+    </popup>    
 
     <!--
-    <popup id="contentAreaContextMenu">
-        <menuitem id="context-clipperzwidget" label="&clipperzwidgetContext.label;"
-              accesskey="&clipperzwidgetContext.accesskey;"
-              insertafter="context-stop"
-              oncommand="clipperzwidget.onMenuItemCommand(event)"/>
-    </popup>
-
     <toolbarpalette id="BrowserToolbarPalette">
         <toolbarbutton id="clipperzwidget-toolbar-button" class="toolbarbutton-1 chromeclass-toolbar-additional"
     label="&clipperzwidgetToolbarButton.label;" tooltiptext="&clipperzwidgetToolbarButton.tooltip;"
