@@ -185,7 +185,9 @@
     <popup id="contentAreaContextMenu">
         <menuitem id="context_random_password" 
                   label="&clipperzwidget.content.context.random_password;"
-                  insertafter="context-sep-paste"
+                  insertafter="context-paste"
+                  image="chrome://clipperzwidget/skin/icon.png"
+                  class="menu-iconic"                   
                   oncommand="clipperzwidget.paste_random_password()"/>
     </popup>    
 

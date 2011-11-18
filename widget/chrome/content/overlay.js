@@ -116,7 +116,56 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
     
     'paste_random_password': function()
     {
-        gContextMenu.target.value = "password :-)";
+        var random_bytes;
+	var random_value;
+        var charset;
+        var charset_bit_size;
+        var string_value;
+        var block_index;
+
+	random_bytes = Clipperz.Crypto.PRNG.defaultRandomGenerator().getRandomBytes(50);
+	string_value = "";
+        block_index = 0;
+        
+        // TODO: Some user prefs for password charset would be nice to have!
+        charset = "";
+        charset += Clipperz.PM.Strings['passwordGeneratorLowercaseCharset'];
+        charset += Clipperz.PM.Strings['passwordGeneratorUppercaseCharset'];
+        charset += Clipperz.PM.Strings['passwordGeneratorNumberCharset'];
+        charset += Clipperz.PM.Strings['passwordGeneratorSymbolCharset'];
+
+        charset_bit_size = 0;
+	while (Math.pow(2, charset_bit_size) < charset.length)
+        {
+            charset_bit_size ++;
+        }
+        
+        if (charset_bit_size > 0)
+        {
+            while (Clipperz.PM.Crypto.passwordEntropy(string_value) < 128)
+            {
+                if (((block_index + 1) * charset_bit_size) > (random_bytes.length() * 8))
+                {
+                    random_bytes = Clipperz.Crypto.PRNG.defaultRandomGenerator().getRandomBytes(50);
+                    block_index = 0;
+                }
+		
+                random_value = random_bytes.bitBlockAtIndexWithSize(block_index * charset_bit_size, charset_bit_size);
+                
+                if (random_value < charset.length)
+                {
+                    string_value += charset.charAt(random_value);
+                }
+            
+                block_index ++;
+            }
+        } 
+        else
+        {
+            string_value = "";
+        }
+        
+        gContextMenu.target.value = string_value;
     },
     
     'analyse_page': function(e)
@@ -237,13 +286,26 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         var password = this.pref_service.getCharPref("extensions.clipperzwidget.password");
 
         this.user = new Clipperz.PM.DataModel.User({username:username, passphrase:password});
+        
+        result.addCallback(MochiKit.Base.method(this, function() 
+            {this.debug("connecting to server");}));        
        
         result.addCallback(MochiKit.Base.method(this.user, 'connect'));
+        result.addCallback(MochiKit.Base.method(this, function() 
+            {this.debug("connection established");}));
+        
         result.addCallback(MochiKit.Base.method(this.user, 'loadPreferences'));
+        result.addCallback(MochiKit.Base.method(this, function() 
+            {this.debug("preferences loaded");}));
+
+        
         result.addCallback(MochiKit.Base.method(this.user, 'loadRecords'));
+        result.addCallback(MochiKit.Base.method(this, function() 
+            {this.debug("records loaded");}));
+        
         result.addCallback(MochiKit.Base.method(this.user, 'loadDirectLogins'));
         result.addCallback(MochiKit.Base.method(this, function() 
-            {this.info("user logged in successfully");}));
+            {this.debug("direct logins loaded");}));
         
         // Load available direct logins and keep form actions!
         result.addCallback(MochiKit.Base.method(this, "load_direct_logins"));
@@ -255,7 +317,6 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                                       this.strings.getString("clipperzwidget.error.db_conn"));
         });
 
-        this.debug("starting callback");
         result.callback("token");
         return result;
     },
@@ -291,8 +352,6 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
             result.addCallback(MochiKit.Base.method(this, 'analyse_page'));
             result.addCallback(MochiKit.Base.method(this, function()
             {
-                this.info("direct logins loaded"); 
-                
                 // Enable statusbar icon
                 document.getElementById("clipperz_statusbarpanel").src = 
                     "chrome://clipperzwidget/skin/icon_status_enabled.png"
