@@ -5,6 +5,12 @@
 <!ENTITY clipperzwidget.statusbar.context.delete_login "Delete current login">
 <!ENTITY clipperzwidget.statusbar.context.copy_username "Copy username to clipboard">
 <!ENTITY clipperzwidget.statusbar.context.copy_password "Copy password to clipboard">
-<!ENTITY clipperzwidget.statusbar.context.open_gui "Open Clipperz">
+<!ENTITY clipperzwidget.statusbar.context.open_gui "Goto Clipperz Web">
+<!ENTITY clipperzwidget.statusbar.context.login "Login">
+<!ENTITY clipperzwidget.statusbar.context.logout "Logout">
+
+<!ENTITY clipperzwidget.credentials.username.label "Username">
+<!ENTITY clipperzwidget.credentials.password.label "Password">
+<!ENTITY clipperzwidget.credentials.login.label "Login to Clipperz">
 
 <!ENTITY clipperzwidget.content.context.random_password "Paste random password">

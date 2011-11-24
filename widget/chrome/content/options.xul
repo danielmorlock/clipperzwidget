@@ -1,31 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<!DOCTYPE prefwindow SYSTEM "chrome://clipperzwidget/locale/options.dtd">
-<prefwindow id="clipperzwidget-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&clipperzwidget.preferences.title;">
-  <prefpane id="pane1" label="&clipperzwidget.preferences.title;">
-    <preferences>
-        <preference id="url" name="extensions.clipperzwidget.url" type="string" />
-        <preference id="username" name="extensions.clipperzwidget.username" type="unichar" />
-        <preference id="password" name="extensions.clipperzwidget.password" type="unichar" />
-<!--
-      <preference id="boolpref1" name="extensions.clipperzwidget.boolpref" type="bool"/>
-      <preference id="intpref1" name="extensions.clipperzwidget.intpref" type="int"/>
-      <preference id="stringpref1" name="extensions.clipperzwidget.stringpref" type="string"/>
--->
-    </preferences>
-<!--
-    <checkbox id="checkboolpref" preference="boolpref1" label="&checkboolpref.label;" accesskey="&checkboolpref.accesskey;"/>
-    <label accesskey="&intpref.accesskey;" control="textintpref">&intpref.label;</label><textbox id="textintpref" preference="intpref1"/>
-    <label accesskey="&stringpref.accesskey;" control="textstringpref">&stringpref.label;</label><textbox id="textstringpref" preference="stringpref1"/>
--->
-    <label accesskey="&clipperzwidget.preferences.url.accesskey;" control="pref_server">&clipperzwidget.preferences.url.label;</label>
-    <textbox id="pref_url" preference="url"/>
+<!DOCTYPE prefwindow SYSTEM "chrome://clipperzwidget/locale/preferences.dtd">
+<prefwindow id="clipperzwidget-preferences" 
+            xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
+            title="&clipperzwidget.preferences.title;">
+                
+    <prefpane id="pane1" label="&clipperzwidget.preferences.title;">
+        <preferences>
+            <preference id="url" name="extensions.clipperzwidget.url" type="string" />
+            <preference id="login_onstartup" name="extensions.clipperzwidget.login_onstartup" type="bool" />
+            <preference id="autologin" onchange="handle_autologin()" name="extensions.clipperzwidget.autologin" type="bool" />
+            <preference id="username" name="extensions.clipperzwidget.username" type="unichar" />
+            <preference id="password" name="extensions.clipperzwidget.password" type="unichar" />
+        </preferences>
+
+        <label accesskey="&clipperzwidget.preferences.url.accesskey;" control="pref_server">&clipperzwidget.preferences.url.label;</label>
+        <textbox id="pref_url" preference="url"/>
+                
+        <label accesskey="&clipperzwidget.preferences.username.accesskey;" control="pref_username">&clipperzwidget.preferences.username.label;</label>
+        <textbox id="pref_username" preference="username"/>
+
+        <label accesskey="&clipperzwidget.preferences.password.accesskey;" control="pref_password">&clipperzwidget.preferences.password.label;</label>
+        <textbox id="pref_password" type="password" preference="password"/>
+        
+        <checkbox accesskey="&clipperzwidget.preferences.autologin.accesskey;" 
+              id="pref_autologin" 
+              preference="autologin"
+              label="&clipperzwidget.preferences.autologin.label;"
+              />            
+              
+        <checkbox accesskey="&clipperzwidget.preferences.login_onstartup.accesskey;" 
+              id="pref_login_onstartup" 
+              preference="login_onstartup"
+              label="&clipperzwidget.preferences.login_onstartup.label;"
+              />                    
+            
+    </prefpane>
     
-    <label accesskey="&clipperzwidget.preferences.username.accesskey;" control="pref_username">&clipperzwidget.preferences.username.label;</label>
-    <textbox id="pref_username" preference="username"/>
-    
-    <label accesskey="&clipperzwidget.preferences.password.accesskey;" control="pref_password">&clipperzwidget.preferences.password.label;</label>
-    <textbox id="pref_password" type="password" preference="password"/>
-    
-  </prefpane>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/preferences.js" />
+
 </prefwindow>

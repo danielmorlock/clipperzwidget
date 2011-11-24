@@ -3,6 +3,12 @@
 <!ENTITY clipperzwidget.preferences.url.label "Clipperz Server URL">
 <!ENTITY clipperzwidget.preferences.url.accesskey "S">
 
+<!ENTITY clipperzwidget.preferences.autologin.label "Auto Login">
+<!ENTITY clipperzwidget.preferences.autologin.accesskey "A">
+
+<!ENTITY clipperzwidget.preferences.login_onstartup.label "Login on Startup">
+<!ENTITY clipperzwidget.preferences.login_onstartup.accesskey "L">
+
 <!ENTITY clipperzwidget.preferences.username.label "Username">
 <!ENTITY clipperzwidget.preferences.username.accesskey "U">
 

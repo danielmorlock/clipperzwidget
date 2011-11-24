@@ -204,36 +204,49 @@
         </toolbar>
     </toolbox>
     -->
-    
+        
     <popupset>
+        
         <menupopup id="statusbar_context" onpopupshowing="" >
-            <menuitem id="add_login"
+            <menuitem id="cw_add_login"
                       label="&clipperzwidget.statusbar.context.add_login;" 
                       oncommand="clipperzwidget.add_login()" 
                       disabled="true" 
                       hidden="true"/>
-            <menuitem id="update_login"
+            <menuitem id="cw_update_login"
                       label="&clipperzwidget.statusbar.context.update_login;" 
                       oncommand="clipperzwidget.update_login()" 
                       disabled="true" 
                       hidden="true"/>                      
-            <menuitem id="delete_login"
+            <menuitem id="cw_delete_login"
                       label="&clipperzwidget.statusbar.context.delete_login;" 
                       oncommand="clipperzwidget.delete_login()" 
                       disabled="true" 
                       hidden="true"/>                                            
-            <menuseparator/>
-            <menuitem id="copy_username"
+            <menuseparator id="contect_separator_0" hidden="true" />
+            <menuitem id="cw_copy_username"
                       label="&clipperzwidget.statusbar.context.copy_username;" 
                       oncommand="clipperzwidget.copy_username()" 
                       disabled="true" />
-            <menuitem id="copy_password"
+            <menuitem id="cw_copy_password"
                       label="&clipperzwidget.statusbar.context.copy_password;" 
                       oncommand="clipperzwidget.copy_password()" 
                       disabled="true" />
             <menuseparator/>
             <menuitem label="&clipperzwidget.statusbar.context.open_gui;" 
-                      oncommand="clipperzwidget.open_gui()" />        
+                      oncommand="clipperzwidget.open_gui()" />     
+
+            <menuitem id="cw_login"
+                      label="&clipperzwidget.statusbar.context.login;" 
+                      oncommand="clipperzwidget.login()"
+                      disabled="false" 
+                      hidden="false" />   
+
+            <menuitem id="cw_logout"
+                      label="&clipperzwidget.statusbar.context.logout;" 
+                      oncommand="clipperzwidget.logout()"
+                      disabled="true" 
+                      hidden="true" />
 
         </menupopup>
    </popupset>
@@ -242,9 +255,28 @@
          <statusbarpanel 
             context="statusbar_context"
             class="statusbarpanel-menu-iconic" 
-            id="clipperz_statusbarpanel"
+            id="cw_statusbarpanel"
             src="chrome://clipperzwidget/skin/icon_status_disabled.png" 
             onclick="if (event.button == 0) clipperzwidget.open_gui();" />
+            
+        <panel id="cw_credentials" 
+               onpopupshow="document.getElementById('cw_credentials_username').focus();">
+            <vbox>
+                <label>&clipperzwidget.credentials.username.label;</label>
+                <textbox id="cw_credentials_username" />
+
+                <label>&clipperzwidget.credentials.password.label;</label>
+                <textbox id="cw_credentials_password" type="password"/>
+
+                <hbox>
+                    <spacer flex="1"/>
+
+                    <button label="&clipperzwidget.credentials.login.label;"
+                            oncommand="clipperzwidget.login();"/>
+                </hbox>
+            </vbox>
+        </panel>
+        
    </statusbar>
 
 </overlay>

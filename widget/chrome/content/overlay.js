@@ -4,7 +4,6 @@ ClipperzWidget = function()
     this.prompt_service = null;
     this.pref_service = null;
     this.clipboard_service = null;
-    this.error = null;
     this.gui = null;
     
     this.form_data = {};
@@ -15,7 +14,7 @@ ClipperzWidget = function()
     
     // Indicates a remote login to the clipperz gui, see ClipperzWidget.go_home().
     this.do_login = false;
-    
+
     return this;
 };
 
@@ -62,52 +61,43 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                 .getService(Components.interfaces.nsIClipboardHelper);  
                 
             // Instantiate default proxy to the clipperz server
-            var url = this.pref_service.getCharPref("extensions.clipperzwidget.url");                           
+            var url = this.pref_service.getCharPref("extensions.clipperzwidget.url");
             
             Clipperz.PM.Proxy.defaultProxy = 
                 new Clipperz.PM.Proxy.JSON({'url': url + "/../index.php", 'shouldPayTolls':false});
-
-            this.login();
             
             // The event can be DOMContentLoaded, pageshow, pagehide, load or unload. 
             if(gBrowser)
-            {
+            {         
                 gBrowser.addEventListener("DOMContentLoaded", 
-                    MochiKit.Base.bind(this.analyse_page, this), false);
+                    MochiKit.Base.bind(function()
+                    {
+                        // Only if user is not logged in!
+                        if(this.user != null)
+                            return;
+
+                        // Login on strtup?
+                        if(this.pref_service.getBoolPref("extensions.clipperzwidget.login_onstartup"))
+                        {
+                            this.debug("doing auto-login on startup");
+                            this.login();
+                        }
+
+                    }, this), true);
+
+                gBrowser.addEventListener("DOMContentLoaded", 
+                    MochiKit.Base.bind(this.analyse_page, this), true);
 
                 var container = gBrowser.tabContainer;  
                 container.addEventListener("TabSelect", 
-                    MochiKit.Base.bind(this.analyse_page, this), false);
-            }            
+                    MochiKit.Base.bind(this.analyse_page, this), true);
+            }
         }
-        catch(error)
+        catch(e)
         {
-            this.error(error);
+            this.error(e);
         } 
     },
-
-    /*
-    'onMenuItemCommand': function(e) 
-    {
-        //this.prompt_service.alert(window, "Clipperz User", this.user);
-        
-        try
-        {
-            //this.load_direct_logins();
-            //for(var action in this.form_actions)
-            dumpr(this.form_data);
-            
-        }
-        catch(err) {alert(err);}        
-    },
-    */
-    /*
-    'onToolbarButtonCommand': function(e) 
-    {
-        // just reuse the function above.  you can change this, obviously!
-        this.onMenuItemCommand(e);
-    },
-    */
    
     'handle_content_context': function()
     {
@@ -281,15 +271,38 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
     
     'login': function()
     {
+        var username = null;
+        var password = null;
+        
         var result = new MochiKit.Async.Deferred();
-        var username = this.pref_service.getCharPref("extensions.clipperzwidget.username");
-        var password = this.pref_service.getCharPref("extensions.clipperzwidget.password");
-
+        var autologin = this.pref_service.getBoolPref("extensions.clipperzwidget.autologin");
+        
+        if(autologin == true)
+        {
+            username = this.pref_service.getCharPref("extensions.clipperzwidget.username");
+            password = this.pref_service.getCharPref("extensions.clipperzwidget.password");
+        }
+        else
+        {
+            // Request username and password, re-call function.
+            var panel = document.getElementById("cw_credentials");
+            
+            if(panel.state != "open")
+            {
+                var statusbar = document.getElementById("status-bar");
+                panel.openPopup(statusbar, "before_end");
+                document.getElementById("cw_credentials_username").focus();
+                return null;
+            }
+            
+            username = document.getElementById("cw_credentials_username").value;
+            password = document.getElementById("cw_credentials_password").value;
+            panel.hidePopup();
+        }
+        
+        this.debug("login using username \"" + username + "\"");
         this.user = new Clipperz.PM.DataModel.User({username:username, passphrase:password});
         
-        result.addCallback(MochiKit.Base.method(this, function() 
-            {this.debug("connecting to server");}));        
-       
         result.addCallback(MochiKit.Base.method(this.user, 'connect'));
         result.addCallback(MochiKit.Base.method(this, function() 
             {this.debug("connection established");}));
@@ -297,7 +310,6 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         result.addCallback(MochiKit.Base.method(this.user, 'loadPreferences'));
         result.addCallback(MochiKit.Base.method(this, function() 
             {this.debug("preferences loaded");}));
-
         
         result.addCallback(MochiKit.Base.method(this.user, 'loadRecords'));
         result.addCallback(MochiKit.Base.method(this, function() 
@@ -306,25 +318,35 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         result.addCallback(MochiKit.Base.method(this.user, 'loadDirectLogins'));
         result.addCallback(MochiKit.Base.method(this, function() 
             {this.debug("direct logins loaded");}));
-        
-        // Load available direct logins and keep form actions!
-        result.addCallback(MochiKit.Base.method(this, "load_direct_logins"));
-
-        result.addErrback(function()
+            
+        result.addErrback(MochiKit.Base.method(this, function() 
         {
-            this.prompt_service.alert(window,  
-                                      this.strings.getString("clipperzwidget.error.login_failed"),
-                                      this.strings.getString("clipperzwidget.error.db_conn"));
-        });
-
-        result.callback("token");
+            this.error(this.strings.getString("clipperzwidget.error.login_failed"));
+            
+            // TODO: Once we understand that MochiKit chaining, we could do this more handy!
+            this.user = null;
+        }));
+        
+        result.addCallback(MochiKit.Base.method(this, "load_direct_logins"));   
+        result.callback();
+        
         return result;
+    },
+    
+    'logout': function()
+    {
+        this.user = null;
+        this.form_data = {};
+        this.set_context();
     },
     
     'load_direct_logins': function()
     {        
         try
         {
+            if(this.user == null)
+                return null;
+            
             // Reset form data
             this.form_data = {};
             
@@ -350,49 +372,75 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                 }), i, login_refs[i].record(), login_refs[i].reference());
             }
             result.addCallback(MochiKit.Base.method(this, 'analyse_page'));
-            result.addCallback(MochiKit.Base.method(this, function()
-            {
-                // Enable statusbar icon
-                document.getElementById("clipperz_statusbarpanel").src = 
-                    "chrome://clipperzwidget/skin/icon_status_enabled.png"
-            }));
+            result.addCallback(MochiKit.Base.method(this, 'set_context'));
 
             result.callback();
             return result;
         }
-        catch(error)
+        catch(e)
         {
-            this.error(error);
+            this.error(e);
         }
     },
     
     'set_context': function()
-    {        
-        // Disable and hide all buttons
-        document.getElementById("copy_username").disabled = true;
-        document.getElementById("copy_password").disabled = true;
-        
-        document.getElementById("add_login").disabled = true;
-        document.getElementById("update_login").disabled = true;
-        document.getElementById("delete_login").disabled = true;
-        document.getElementById("add_login").hidden = true;
-        document.getElementById("update_login").hidden = true;
-        document.getElementById("delete_login").hidden = true;  
-        
-        if(this.cur_reference != null)
+    {       
+        try
         {
-            document.getElementById("copy_username").disabled = false;
-            document.getElementById("copy_password").disabled = false;
-            
-            document.getElementById("update_login").disabled = false;
-            document.getElementById("delete_login").disabled = false;
-            document.getElementById("update_login").hidden = false;
-            document.getElementById("delete_login").hidden = false;  
+            // Disable and hide all buttons
+            document.getElementById("cw_copy_username").disabled = true;
+            document.getElementById("cw_copy_password").disabled = true;
+
+            document.getElementById("cw_add_login").disabled = true;
+            document.getElementById("cw_update_login").disabled = true;
+            document.getElementById("cw_delete_login").disabled = true;
+            document.getElementById("cw_add_login").hidden = true;
+            document.getElementById("cw_update_login").hidden = true;
+            document.getElementById("cw_delete_login").hidden = true;  
+
+            document.getElementById("cw_login").disabled = true;
+            document.getElementById("cw_logout").disabled = true;
+            document.getElementById("cw_login").hidden = true;
+            document.getElementById("cw_logout").hidden = true;        
+
+            if(this.cur_reference != null)
+            {
+                document.getElementById("cw_copy_username").disabled = false;
+                document.getElementById("cw_copy_password").disabled = false;
+
+                document.getElementById("cw_update_login").disabled = false;
+                document.getElementById("cw_delete_login").disabled = false;
+                document.getElementById("cw_update_login").hidden = false;
+                document.getElementById("cw_delete_login").hidden = false;  
+            }
+            else
+            {
+                document.getElementById("cw_add_login").disabled = false;
+                document.getElementById("cw_add_login").hidden = false;      
+            }
+
+            if(this.user != null)
+            {
+                // Set statusbar icon
+                document.getElementById("cw_statusbarpanel").src = 
+                    "chrome://clipperzwidget/skin/icon_status_enabled.png";
+
+                document.getElementById("cw_logout").hidden = false;
+                document.getElementById("cw_logout").disabled = false;
+            }
+            else
+            {
+                // Set statusbar icon
+                document.getElementById("cw_statusbarpanel").src = 
+                    "chrome://clipperzwidget/skin/icon_status_disabled.png";
+
+                document.getElementById("cw_login").hidden = false;
+                document.getElementById("cw_login").disabled = false;            
+            }       
         }
-        else
+        catch(e)
         {
-            document.getElementById("add_login").disabled = false;
-            document.getElementById("add_login").hidden = false;      
+            this.error(e);
         }
         
     },
@@ -409,7 +457,9 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
     
     'error': function(msg)
     {
-        this.log("error", msg);
+        this.prompt_service.alert(window,  
+            this.strings.getString("clipperzwidget.error.title"),
+            msg);
     },
     
     'warning': function(msg)
@@ -461,6 +511,10 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                     return;
                 
                 this.do_login = false;
+                
+                var autologin = this.pref_service.getBoolPref("extensions.clipperzwidget.autologin");
+                if(autologin == false)
+                    return;
                 
                 var input_username = content.document.createElement("input");
                 input_username.type = "password";
@@ -685,6 +739,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
 });
 
 var clipperzwidget;
+
 window.addEventListener("load", function() 
 {
     clipperzwidget = new ClipperzWidget();
