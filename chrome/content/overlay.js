@@ -65,6 +65,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
             
             Clipperz.PM.Proxy.defaultProxy = 
                 new Clipperz.PM.Proxy.JSON({'url': url + "/../index.php", 'shouldPayTolls':false});
+            this.debug("using proxy url " + url + "/../index.php"); // @TODO: Assert that the URL is valid e.g. no double//slashes!
             
             // The event can be DOMContentLoaded, pageshow, pagehide, load or unload. 
             if(gBrowser)
@@ -321,9 +322,9 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         result.addCallback(MochiKit.Base.method(this, function() 
             {this.debug("direct logins loaded");}));
             
-        result.addErrback(MochiKit.Base.method(this, function() 
+        result.addErrback(MochiKit.Base.method(this, function(e) 
         {
-            this.error(this.strings.getString("clipperzwidget.error.login_failed"));
+            this.error(this.strings.getString("clipperzwidget.error.login_failed") + e.message);
             
             // TODO: Once we understand that MochiKit chaining, we could do this more handy!
             this.user = null;
