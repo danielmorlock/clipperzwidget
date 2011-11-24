@@ -68,7 +68,8 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
             
             // The event can be DOMContentLoaded, pageshow, pagehide, load or unload. 
             if(gBrowser)
-            {         
+            {   
+                /*
                 gBrowser.addEventListener("DOMContentLoaded", 
                     MochiKit.Base.bind(function()
                     {
@@ -84,7 +85,8 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                         }
 
                     }, this), true);
-
+                */
+               
                 gBrowser.addEventListener("DOMContentLoaded", 
                     MochiKit.Base.bind(this.analyse_page, this), true);
 
