@@ -1,5 +1,4 @@
 pref("extensions.clipperzwidget.url", "http://");
-pref("extensions.clipperzwidget.login_onstartup", true);
 pref("extensions.clipperzwidget.autologin", false);
 pref("extensions.clipperzwidget.username", "");
 pref("extensions.clipperzwidget.password", "");

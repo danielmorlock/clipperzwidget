@@ -1,3 +1,7 @@
+var CW_STATUS_OFFLINE = 0;
+var CW_STATUS_CONNECTING = 1;
+var CW_STATUS_ONLINE = 2;
+
 ClipperzWidget = function()
 {
     this.user = null;
@@ -14,6 +18,9 @@ ClipperzWidget = function()
     
     // Indicates a remote login to the clipperz gui, see ClipperzWidget.go_home().
     this.do_login = false;
+    
+    // Widget status
+    this.status = CW_STATUS_OFFLINE;
 
     return this;
 };
@@ -66,27 +73,25 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
             Clipperz.PM.Proxy.defaultProxy = 
                 new Clipperz.PM.Proxy.JSON({'url': url + "/../index.php", 'shouldPayTolls':false});
             this.debug("using proxy url " + url + "/../index.php"); // @TODO: Assert that the URL is valid e.g. no double//slashes!
-            
+                        
             // The event can be DOMContentLoaded, pageshow, pagehide, load or unload. 
             if(gBrowser)
-            {   
-                /*
-                gBrowser.addEventListener("DOMContentLoaded", 
+            {  
+                gBrowser.addEventListener("load", 
                     MochiKit.Base.bind(function()
                     {
-                        // Only if user is not logged in!
-                        if(this.user != null)
+                        // Only if user is offline
+                        if(this.status != CW_STATUS_OFFLINE)
                             return;
 
-                        // Login on strtup?
-                        if(this.pref_service.getBoolPref("extensions.clipperzwidget.login_onstartup"))
+                        // Login on startup?
+                        if(this.pref_service.getBoolPref("extensions.clipperzwidget.autologin"))
                         {
                             this.debug("doing auto-login on startup");
                             this.login();
                         }
 
                     }, this), true);
-                */
                
                 gBrowser.addEventListener("DOMContentLoaded", 
                     MochiKit.Base.bind(this.analyse_page, this), true);
@@ -110,14 +115,14 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
     'paste_random_password': function()
     {
         var random_bytes;
-	var random_value;
+        var random_value;
         var charset;
         var charset_bit_size;
         var string_value;
         var block_index;
 
-	random_bytes = Clipperz.Crypto.PRNG.defaultRandomGenerator().getRandomBytes(50);
-	string_value = "";
+        random_bytes = Clipperz.Crypto.PRNG.defaultRandomGenerator().getRandomBytes(50);
+        string_value = "";
         block_index = 0;
         
         // TODO: Some user prefs for password charset would be nice to have!
@@ -128,7 +133,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         charset += Clipperz.PM.Strings['passwordGeneratorSymbolCharset'];
 
         charset_bit_size = 0;
-	while (Math.pow(2, charset_bit_size) < charset.length)
+        while (Math.pow(2, charset_bit_size) < charset.length)
         {
             charset_bit_size ++;
         }
@@ -161,8 +166,11 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         gContextMenu.target.value = string_value;
     },
     
-    'analyse_page': function(e)
+    'analyse_page': function(res)
     {
+        if(this.status != CW_STATUS_ONLINE)
+            return res;
+        
         //var doc = event.originalTarget; // doc is document that triggered the event  
         //var win = doc.defaultView; // win is the window for the doc  
     
@@ -182,7 +190,8 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
             this.clear_page();
         }
         
-        this.set_context();
+        this.status(null);
+        return res;
     },
     
     'clear_page': function()
@@ -274,6 +283,9 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
     
     'login': function()
     {
+        // Prevent from logign in multiple times twice
+        this.status = CW_STATUS_CONNECTING;
+        
         var username = null;
         var password = null;
         
@@ -289,13 +301,17 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         {
             // Request username and password, re-call function.
             var panel = document.getElementById("cw_credentials");
-            
+
             if(panel.state != "open")
             {
-                var statusbar = document.getElementById("status-bar");
-                panel.openPopup(statusbar, "before_end");
-                document.getElementById("cw_credentials_username").focus();
-                return null;
+                MochiKit.Async.callLater(1.0, function()
+                {
+                    var statusbar = document.getElementById("status-bar");
+                    panel.openPopup(statusbar, "before_end");
+                    document.getElementById("cw_credentials_username").focus();
+                });
+                
+                return  null;
             }
             
             username = document.getElementById("cw_credentials_username").value;
@@ -307,30 +323,49 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         this.user = new Clipperz.PM.DataModel.User({username:username, passphrase:password});
         
         result.addCallback(MochiKit.Base.method(this.user, 'connect'));
-        result.addCallback(MochiKit.Base.method(this, function() 
-            {this.debug("connection established");}));
+        result.addCallback(MochiKit.Base.method(this, function(res) 
+        {
+            this.debug("connection established");
+            return res;
+        }));
         
         result.addCallback(MochiKit.Base.method(this.user, 'loadPreferences'));
-        result.addCallback(MochiKit.Base.method(this, function() 
-            {this.debug("preferences loaded");}));
+        result.addCallback(MochiKit.Base.method(this, function(res) 
+        {
+            this.debug("preferences loaded");
+            return res;
+        }));
         
         result.addCallback(MochiKit.Base.method(this.user, 'loadRecords'));
-        result.addCallback(MochiKit.Base.method(this, function() 
-            {this.debug("records loaded");}));
+        result.addCallback(MochiKit.Base.method(this, function(res) 
+        {
+            this.debug("records loaded");
+            return res;
+        }));
         
         result.addCallback(MochiKit.Base.method(this.user, 'loadDirectLogins'));
-        result.addCallback(MochiKit.Base.method(this, function() 
-            {this.debug("direct logins loaded");}));
-            
-        result.addErrback(MochiKit.Base.method(this, function(e) 
+        result.addCallback(MochiKit.Base.method(this, function(res) 
         {
-            this.error(this.strings.getString("clipperzwidget.error.login_failed") + e.message);
+            this.debug("direct logins loaded");
+            return res;
+        }));
+            
+        result.addErrback(MochiKit.Base.method(this, function(error, res) 
+        {
+            this.error(this.strings.getString("clipperzwidget.error.login_failed") + error.message);
             
             // TODO: Once we understand that MochiKit chaining, we could do this more handy!
             this.user = null;
+            
+            return res;
         }));
         
-        result.addCallback(MochiKit.Base.method(this, "load_direct_logins"));   
+        result.addCallback(MochiKit.Base.method(this, function(res)
+        {
+            this.set_status(CW_STATUS_ONLINE);
+            this.load_direct_logins();
+            return res;
+        }));
         result.callback();
         
         return result;
@@ -340,14 +375,14 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
     {
         this.user = null;
         this.form_data = {};
-        this.set_context();
+        this.set_status(CW_STATUS_OFFLINE);
     },
     
     'load_direct_logins': function()
     {        
         try
         {
-            if(this.user == null)
+            if(this.status != CW_STATUS_ONLINE)
                 return null;
             
             // Reset form data
@@ -374,22 +409,29 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
 
                 }), i, login_refs[i].record(), login_refs[i].reference());
             }
+            
             result.addCallback(MochiKit.Base.method(this, 'analyse_page'));
-            result.addCallback(MochiKit.Base.method(this, 'set_context'));
-
             result.callback();
+            
             return result;
         }
         catch(e)
         {
             this.error(e);
+            return null;
         }
     },
     
-    'set_context': function()
+    'set_status': function(status)
     {       
         try
         {
+            if(status != null)
+            {
+                this.debug("updating status " + status);
+                this.status = status;
+            }
+            
             // Disable and hide all buttons
             document.getElementById("cw_copy_username").disabled = true;
             document.getElementById("cw_copy_password").disabled = true;
@@ -422,7 +464,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
                 document.getElementById("cw_add_login").hidden = false;      
             }
 
-            if(this.user != null)
+            if(this.status == CW_STATUS_ONLINE)
             {
                 // Set statusbar icon
                 document.getElementById("cw_statusbarpanel").src = 
@@ -445,7 +487,6 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         {
             this.error(e);
         }
-        
     },
     
     'debug': function(msg)

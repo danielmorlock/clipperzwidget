@@ -8,7 +8,6 @@
     <prefpane id="pane1" label="&clipperzwidget.preferences.title;">
         <preferences>
             <preference id="url" name="extensions.clipperzwidget.url" type="string" />
-            <preference id="login_onstartup" name="extensions.clipperzwidget.login_onstartup" type="bool" />
             <preference id="autologin" onchange="handle_autologin()" name="extensions.clipperzwidget.autologin" type="bool" />
             <preference id="username" name="extensions.clipperzwidget.username" type="unichar" />
             <preference id="password" name="extensions.clipperzwidget.password" type="unichar" />
@@ -27,13 +26,7 @@
               id="pref_autologin" 
               preference="autologin"
               label="&clipperzwidget.preferences.autologin.label;"
-              />            
-              
-        <checkbox accesskey="&clipperzwidget.preferences.login_onstartup.accesskey;" 
-              id="pref_login_onstartup" 
-              preference="login_onstartup"
-              label="&clipperzwidget.preferences.login_onstartup.label;"
-              />                    
+              />              
             
     </prefpane>
     
