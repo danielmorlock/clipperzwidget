@@ -190,7 +190,7 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
             this.clear_page();
         }
         
-        this.status(null);
+        this.set_status(null);
         return res;
     },
     
