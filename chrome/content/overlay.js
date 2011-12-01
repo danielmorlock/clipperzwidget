@@ -163,6 +163,8 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
             string_value = "";
         }
         
+        
+        this.clipboard_service.copyString(string_value);
         gContextMenu.target.value = string_value;
     },
     

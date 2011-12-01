@@ -13,4 +13,4 @@
 <!ENTITY clipperzwidget.credentials.password.label "Password">
 <!ENTITY clipperzwidget.credentials.login.label "Login to Clipperz">
 
-<!ENTITY clipperzwidget.content.context.random_password "Paste random password">
+<!ENTITY clipperzwidget.content.context.random_password "Paste & copy random password">
