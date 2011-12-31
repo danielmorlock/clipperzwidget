@@ -37,7 +37,6 @@ done
 cd $tmp/clipperzwidget
 rm -rf ext
 rm -rf scripts
-rm -rf chrome/content/lib/YUI-extensions
 find . -iname '.git*' | while read d ; do rm -rf $d ; done
 zip -r $tag.xpi .
 mv $tag.xpi $dest
