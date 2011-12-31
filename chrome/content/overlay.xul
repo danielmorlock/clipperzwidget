@@ -19,48 +19,9 @@
     <script type="text/javascript" src="lib/MochiKit/Logging.js"></script>
     <script type="text/javascript" src="lib/MochiKit/LoggingPane.js"></script>
     <script type="text/javascript" src="lib/YUI/yahoo.js"></script>
-    <script type="text/javascript" src="lib/YUI/animation.js"></script>
     <script type="text/javascript" src="lib/YUI/event.js"></script>
     <script type="text/javascript" src="lib/YUI/dom.js"></script>
-    <script type="text/javascript" src="lib/YUI/dragdrop.js"></script>
-    <script type="text/javascript" src="lib/YUI/logger.js"></script>
     <script type="text/javascript" src="lib/YUI-extensions/yutil.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/Bench.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/Date.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/DomHelper.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/Element.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/CompositeElement.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/State.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/EventManager.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/KeyMap.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/Layer.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/MixedCollection.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/State.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/UpdateManager.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/anim/Actor.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/anim/Animator.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/dd/Registry.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/dd/ScrollManager.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/dd/StatusProxy.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/layout/ContentPanels.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/layout/LayoutManager.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/layout/BorderLayout.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/layout/BasicLayoutRegion.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/layout/LayoutRegion.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/layout/LayoutStateManager.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/layout/SplitLayoutRegion.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/layout/BorderLayoutRegions.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/widgets/BasicDialog.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/widgets/Button.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/widgets/MessageBox.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/widgets/Resizable.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/widgets/SplitBar.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/widgets/TabPanel.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/widgets/TemplateView.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/widgets/Toolbar.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/widgets/InlineEditor.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/widgets/QuickTips.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/CSS.js"></script>
     <script type="text/javascript" src="lib/JSON/json2.js"></script>
     <script type="text/javascript" src="lib/Clipperz/ByteArray.js"></script>
     <script type="text/javascript" src="lib/Clipperz/Base.js"></script>
@@ -95,14 +56,6 @@
     <script type="text/javascript" src="lib/Clipperz/PM/Components/TextFormField.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Components/PasswordEntropyDisplay.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Components/PasswordGenerator.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Panels/BasePanel.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Panels/LoginPanel.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Panels/MainPanel.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Panels/AccountPanel.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Panels/DataPanel.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Panels/ContactsPanel.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Panels/ToolsPanel.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Panels/LogoutPanel.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/MainComponent.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/AbstractComponent.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/HeaderComponent.js"></script>
@@ -121,26 +74,10 @@
     <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/DirectLoginValueComponent.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/CreationWizard.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Components/TabPanel/TabPanelController.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Import/MainComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Import/GenericImportComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Import/CSVImportComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Import/CSVImport/CSVImportColumns.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Import/CSVImport/CSVImportHeader.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Import/CSVImport/CSVImportTitle.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Import/CSVImport/CSVImportNotes.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Import/CSVImport/CSVImportFields.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Import/ExcelImportComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Import/PasswordPlusImportComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Import/ClipperzImportComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Import/RoboFormImportComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Import/KeePassImportComponent.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Components/Printing/Header.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Components/Printing/Record.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Components/Printing/Footer.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Components/OTP/MainComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Compact/CompactHeader.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Compact/LoginForm.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Compact/CompactInterface.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Toll.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Proxy.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Proxy/Proxy.JSON.js"></script>
@@ -160,20 +97,11 @@
     <script type="text/javascript" src="lib/Clipperz/PM/DataModel/DirectLoginReference.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/DataModel/DirectLoginInput.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/DataModel/DirectLoginBinding.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/DataModel/OneTimePasswordManager.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/DataModel/OneTimePassword.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/YUI/IBLayoutManager.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/YUI/IBLayoutRegion.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/YUI/Drawer.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/YUI/Collapser.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/YUI/MessageBox.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/YUI/DomHelper.js"></script>
+
     <script type="text/javascript" src="lib/Clipperz/PM/Main.js"></script>
     
     <script src="bookmarklet.js" />
     <script src="overlay.js"/>  
-    
-    <script src="lib/MochiKit/LoggingPane.js"/>
   
     <stringbundleset id="stringbundleset">
         <stringbundle id="clipperzwidget-strings" src="chrome://clipperzwidget/locale/overlay.properties"/>
