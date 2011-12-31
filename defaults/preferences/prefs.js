@@ -1,4 +1,4 @@
-pref("extensions.clipperzwidget.url", "http://");
+pref("extensions.clipperzwidget.url", "https://www.clipperz.com/beta/");
 pref("extensions.clipperzwidget.autologin", false);
 pref("extensions.clipperzwidget.username", "");
 pref("extensions.clipperzwidget.password", "");
