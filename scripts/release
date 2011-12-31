@@ -1,0 +1,46 @@
+#!/bin/bash
+
+if [[ -z $1 ]]
+then
+    echo "usage: `basename $0` <tag> [<destination dir>]"
+    exit 1
+fi	
+
+#url="https://danielmorlock@github.com/danielmorlock/clipperzwidget.git"
+url="git://github.com/danielmorlock/clipperzwidget.git"
+tag=$1
+tmp=`mktemp -d`
+if [[ -n $2 ]] ; then dest=$2 ; else dest=$HOME ; fi
+
+echo "working directory is \"$tmp\""
+set -o errexit
+cd $tmp
+git clone $url
+cd clipperzwidget
+git checkout $tag 
+git submodule update --init
+
+# Prepare library and remove file we don't need!
+rm chrome/content/lib
+mkdir chrome/content/lib
+cd ext/password-manager/frontend/beta/js
+cat $tmp/clipperzwidget/chrome/content/overlay.xul | \
+grep "script type=\"text/javascript\" src=\"lib/" | \
+awk -F\" '{print $4}' | \
+while read l
+do
+    # lib/Clipperz/PM/Components/RecordDetail/FieldComponent.js
+    src=`echo $l | sed 's#lib/##g'`
+    dest="../../../../../chrome/content/lib"
+    cp $src $dest --parents
+done
+cd $tmp/clipperzwidget
+rm -rf ext
+rm -rf scripts
+rm -rf chrome/content/lib/YUI-extensions
+find . -iname '.git*' | while read d ; do rm -rf $d ; done
+zip -r $tag.xpi .
+mv $tag.xpi $dest
+cd ../..
+rm -rf $tmp
+exit 0
