@@ -1,0 +1,3 @@
+[submodule "ext/password-manager"]
+	path = ext/password-manager
+	url = https://github.com/clipperz/password-manager.git
