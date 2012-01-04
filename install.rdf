@@ -4,7 +4,7 @@
     <em:id>clipperzwidget@danielmorlock.de</em:id>
     <em:type>2</em:type>
     <em:name>Clipperz Widget</em:name>
-    <em:version>0.1</em:version>
+    <em:version>0.2</em:version>
     <em:creator>Daniel Morlock</em:creator>
     <em:contributor></em:contributor>
     <em:description>Integrates the Clipperz password manager into your Firefox browser.  Enabled auto-login and auto-paste for your passwords stored in the Clipperz database.</em:description>
