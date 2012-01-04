@@ -7,20 +7,18 @@
                 
     <prefpane id="pane1" label="&clipperzwidget.preferences.title;">
         <preferences>
-            <preference id="url" name="extensions.clipperzwidget.url" type="string" />
-            <preference id="autologin" onchange="handle_autologin()" name="extensions.clipperzwidget.autologin" type="bool" />
-            <preference id="username" name="extensions.clipperzwidget.username" type="unichar" />
-            <preference id="password" name="extensions.clipperzwidget.password" type="unichar" />
+            <preference id="url" name="extensions.clipperzwidget.url" type="string" onchange="clipperzwidget.preferences.update_login()" />
+            <preference id="autologin" onchange="clipperzwidget.preferences.handle_autologin()" name="extensions.clipperzwidget.autologin" type="bool" />
         </preferences>
 
         <label accesskey="&clipperzwidget.preferences.url.accesskey;" control="pref_server">&clipperzwidget.preferences.url.label;</label>
         <textbox id="pref_url" preference="url"/>
                 
         <label accesskey="&clipperzwidget.preferences.username.accesskey;" control="pref_username">&clipperzwidget.preferences.username.label;</label>
-        <textbox id="pref_username" preference="username"/>
+        <textbox id="pref_username" onchange="clipperzwidget.preferences.update_login()"/>
 
         <label accesskey="&clipperzwidget.preferences.password.accesskey;" control="pref_password">&clipperzwidget.preferences.password.label;</label>
-        <textbox id="pref_password" type="password" preference="password"/>
+        <textbox id="pref_password" type="password" onchange="clipperzwidget.preferences.update_login()"/>
         
         <checkbox accesskey="&clipperzwidget.preferences.autologin.accesskey;" 
               id="pref_autologin" 
@@ -30,6 +28,18 @@
             
     </prefpane>
     
+    <script type="application/javascript" src="chrome://clipperzwidget/content/namespace.js" />
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/MochiKit/Base.js" />
     <script type="application/javascript" src="chrome://clipperzwidget/content/preferences.js" />
+    <script type="application/javascript">
+        window.addEventListener("load", function() 
+        {
+            clipperzwidget.preferences = new ClipperzWidgetPreferences();
+            clipperzwidget.preferences.init();
+            clipperzwidget.preferences.show_login();
+            clipperzwidget.preferences.handle_autologin();
+            
+        }, false);
+    </script>
 
 </prefwindow>

@@ -8,70 +8,74 @@
     the clipperz password manager frontend. This might be too much and should be
     refactored!
     -->
-    <script type="text/javascript" src="lib/MochiKit/Base.js"></script>
-    <script type="text/javascript" src="lib/MochiKit/Iter.js"></script>
-    <script type="text/javascript" src="lib/MochiKit/DOM.js"></script>
-    <script type="text/javascript" src="lib/MochiKit/Style.js"></script>
-    <script type="text/javascript" src="lib/MochiKit/Signal.js"></script>
-    <script type="text/javascript" src="lib/MochiKit/Format.js"></script>
-    <script type="text/javascript" src="lib/MochiKit/Async.js"></script>
-    <script type="text/javascript" src="lib/MochiKit/Selector.js"></script>
-    <script type="text/javascript" src="lib/MochiKit/Logging.js"></script>
-    <script type="text/javascript" src="lib/MochiKit/LoggingPane.js"></script>
-    <script type="text/javascript" src="lib/YUI/yahoo.js"></script>
-    <script type="text/javascript" src="lib/YUI/event.js"></script>
-    <script type="text/javascript" src="lib/YUI/dom.js"></script>
-    <script type="text/javascript" src="lib/YUI-extensions/yutil.js"></script>
-    <script type="text/javascript" src="lib/JSON/json2.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/ByteArray.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/Base.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/CSVProcessor.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/KeePassExportProcessor.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/DOM.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/Signal.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/Style.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/Set.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/NotificationCenter.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/Crypto/SHA.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/Crypto/AES.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/Crypto/PRNG.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/Crypto/BigInt.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/Crypto/Base.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/Crypto/SRP.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/Crypto/RSA.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Strings/Strings_en-US.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Strings/Strings_it-IT.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Strings/Strings_pt-BR.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Strings/Strings_ja-JP.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Strings/Strings_zh-CN.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Strings/Strings_es-ES.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Strings/Strings_fr-FR.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Strings/Strings_ru-RU.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Strings.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Strings/MessagePanelConfigurations.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Toll.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Proxy.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Proxy/Proxy.JSON.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Proxy/Proxy.Offline.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Connection.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Crypto.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/BookmarkletProcessor.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/DataModel/User.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/DataModel/UserPreferences.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/DataModel/Header.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/DataModel/Statistics.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/DataModel/Record.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/DataModel/RecordField.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/DataModel/RecordVersion.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/DataModel/DirectLogin.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/DataModel/DirectLoginReference.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/DataModel/DirectLoginInput.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/DataModel/DirectLoginBinding.js"></script>
-
-    <script type="text/javascript" src="lib/Clipperz/PM/Main.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/namespace.js"></script>
     
-    <script src="bookmarklet.js" />
-    <script src="overlay.js"/>  
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/MochiKit/Base.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/MochiKit/Iter.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/MochiKit/DOM.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/MochiKit/Style.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/MochiKit/Signal.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/MochiKit/Format.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/MochiKit/Async.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/MochiKit/Selector.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/MochiKit/Logging.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/MochiKit/LoggingPane.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/YUI/yahoo.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/YUI/event.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/YUI/dom.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/YUI-extensions/yutil.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/JSON/json2.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/ByteArray.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/Base.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/CSVProcessor.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/KeePassExportProcessor.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/DOM.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/Signal.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/Style.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/Set.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/NotificationCenter.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/Crypto/SHA.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/Crypto/AES.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/Crypto/PRNG.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/Crypto/BigInt.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/Crypto/Base.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/Crypto/SRP.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/Crypto/RSA.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Strings/Strings_en-US.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Strings/Strings_it-IT.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Strings/Strings_pt-BR.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Strings/Strings_ja-JP.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Strings/Strings_zh-CN.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Strings/Strings_es-ES.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Strings/Strings_fr-FR.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Strings/Strings_ru-RU.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Strings.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Strings/MessagePanelConfigurations.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Toll.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Proxy.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Proxy/Proxy.JSON.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Proxy/Proxy.Offline.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Connection.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Crypto.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/BookmarkletProcessor.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/DataModel/User.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/DataModel/UserPreferences.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/DataModel/Header.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/DataModel/Statistics.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/DataModel/Record.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/DataModel/RecordField.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/DataModel/RecordVersion.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/DataModel/DirectLogin.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/DataModel/DirectLoginReference.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/DataModel/DirectLoginInput.js"></script>
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/DataModel/DirectLoginBinding.js"></script>
+
+    <script type="application/javascript" src="chrome://clipperzwidget/content/lib/Clipperz/PM/Main.js"></script>
+    
+    <script type="application/javascript" src="chrome://clipperzwidget/content/bookmarklet.js" />
+
+    <script type="application/javascript" src="chrome://clipperzwidget/content/preferences.js" />
+    <script type="application/javascript" src="chrome://clipperzwidget/content/overlay.js"/>
   
     <stringbundleset id="stringbundleset">
         <stringbundle id="clipperzwidget-strings" src="chrome://clipperzwidget/locale/overlay.properties"/>

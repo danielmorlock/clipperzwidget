@@ -3,7 +3,7 @@ var CW_STATUS_CONNECTING = 1;
 var CW_STATUS_ONLINE = 2;
 var CW_STATUS_ERROR = 3;
 
-ClipperzWidget = function()
+var ClipperzWidget = function()
 {
     this.user = null;
     this.prompt_service = null;
@@ -22,6 +22,13 @@ ClipperzWidget = function()
     
     // Widget status
     this.status = CW_STATUS_OFFLINE;
+    
+    // Initialize preference manager to access username and password
+    this.preferences = new ClipperzWidgetPreferences();
+    this.preferences.init();
+    
+    // Bookmarklet to fetch logins from webpages
+    this.bookmarklet = new ClipperzWidgetBookmarklet();
 
     return this;
 };
@@ -139,6 +146,8 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         charset += Clipperz.PM.Strings['passwordGeneratorUppercaseCharset'];
         charset += Clipperz.PM.Strings['passwordGeneratorNumberCharset'];
         charset += Clipperz.PM.Strings['passwordGeneratorSymbolCharset'];
+        
+        //this.info("available charset: " + charset);
 
         charset_bit_size = 0;
         while (Math.pow(2, charset_bit_size) < charset.length)
@@ -302,10 +311,10 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         var result = new MochiKit.Async.Deferred();
         var autologin = this.pref_service.getBoolPref("extensions.clipperzwidget.autologin");
         
-        if(autologin == true)
+        if(autologin == true && this.preferences.login != null)
         {
-            username = this.pref_service.getCharPref("extensions.clipperzwidget.username");
-            password = this.pref_service.getCharPref("extensions.clipperzwidget.password");
+            username = this.preferences.login.username;
+            password = this.preferences.login.password;
         }
         else
         {
@@ -627,32 +636,18 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         this.debug("add_login");
         
         try
-        {
-            /*
-            var json = '{"page": {"title": "Clipperz - online password manager - debug"}, '+
-                       '"form": {"attributes": {"action": "http://localhost:81/workspace/clipperz/target/php/test_login.php",'+
-                       '"method": "post"},'+
-                       '"inputs": [{"type": "text",'+
-                       '"name": "username",'+
-                       '"value": "da"},'+
-                       '{"type": "password",'+
-                       '"name": "password",'+
-                       '"value": "da"}]},'+
-                       '"version": "0.2.3"}';
-                   
-            var configuration = 
-                Clipperz.PM.BookmarkletProcessor.checkBookmarkletConfiguration(json, null, 
-                    MochiKit.Base.method(this, function() {this.error("invalid json configuration");}));
-            */                    
-                    
+        {                    
             var configuration = {};
-            configuration.page = pageParameters();
-            configuration.form = formParameters(findLoginForm(content.document, 0));
+            configuration.page = this.bookmarklet.pageParameters();
+            configuration.form = this.bookmarklet.formParameters(
+                                    this.bookmarklet.findLoginForm(content.document, 0));
             configuration.version = "0.2.3";
-            this.debug("got a configuration: " + configuration);            
+            this.debug("got a configuration: " + configuration);
 
             var record = 
-                Clipperz.PM.BookmarkletProcessor.createRecordFromBookmarkletConfiguration(this.user, configuration);
+                Clipperz.PM.BookmarkletProcessor.
+                            createRecordFromBookmarkletConfiguration(this.user, configuration);
+                        
             this.debug("got a record: " + record);
 
             var result = new MochiKit.Async.Deferred();            
@@ -800,8 +795,6 @@ MochiKit.Base.update(ClipperzWidget.prototype, {
         return result;
     }
 });
-
-var clipperzwidget;
 
 window.addEventListener("load", function() 
 {
