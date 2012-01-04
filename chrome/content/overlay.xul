@@ -27,7 +27,6 @@
     <script type="text/javascript" src="lib/Clipperz/Base.js"></script>
     <script type="text/javascript" src="lib/Clipperz/CSVProcessor.js"></script>
     <script type="text/javascript" src="lib/Clipperz/KeePassExportProcessor.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/Date.js"></script>
     <script type="text/javascript" src="lib/Clipperz/DOM.js"></script>
     <script type="text/javascript" src="lib/Clipperz/Signal.js"></script>
     <script type="text/javascript" src="lib/Clipperz/Style.js"></script>
@@ -50,12 +49,10 @@
     <script type="text/javascript" src="lib/Clipperz/PM/Strings/Strings_ru-RU.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Strings.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Strings/MessagePanelConfigurations.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Date.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Toll.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Proxy.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Proxy/Proxy.JSON.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Proxy/Proxy.Offline.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Proxy/Proxy.Offline.DataStore.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Connection.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Crypto.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/BookmarkletProcessor.js"></script>
