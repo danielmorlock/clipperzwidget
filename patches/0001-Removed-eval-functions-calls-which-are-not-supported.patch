@@ -1,0 +1,148 @@
+From 2566a86223a5efd95be339f1d1185ac518e1143c Mon Sep 17 00:00:00 2001
+From: Daniel Morlock <daniel.morlock@gmail.com>
+Date: Wed, 4 Jan 2012 15:42:55 +0100
+Subject: [PATCH] Removed eval() functions calls which are not supported within Mozilla addons.
+
+---
+ frontend/beta/js/MochiKit/Async.js       |   13 ++++---------
+ frontend/beta/js/MochiKit/Base.js        |   24 +++---------------------
+ frontend/beta/js/YUI-extensions/yutil.js |   25 +------------------------
+ 3 files changed, 8 insertions(+), 54 deletions(-)
+
+diff --git a/frontend/beta/js/MochiKit/Async.js b/frontend/beta/js/MochiKit/Async.js
+index 7f575aa..c61a2c5 100644
+--- a/frontend/beta/js/MochiKit/Async.js
++++ b/frontend/beta/js/MochiKit/Async.js
+@@ -215,10 +215,6 @@ MochiKit.Async.Deferred.prototype = {
+ };
+ 
+ MochiKit.Base.update(MochiKit.Async, {
+-    /** @id MochiKit.Async.evalJSONRequest */
+-    evalJSONRequest: function (/* req */) {
+-        return eval('(' + arguments[0].responseText + ')');
+-    },
+ 
+     /** @id MochiKit.Async.succeed */
+     succeed: function (/* optional */result) {
+@@ -410,7 +406,10 @@ MochiKit.Base.update(MochiKit.Async, {
+             'mimeType': 'text/plain',
+             'headers': [['Accept', 'application/json']]
+         });
+-        d = d.addCallback(self.evalJSONRequest);
++        d = d.addCallback(function(arg)
++        {
++            return JSON.parse(arg.responseText);
++        });
+         return d;
+     },
+ 
+@@ -594,10 +593,6 @@ MochiKit.Async.EXPORT = [
+     "doXHR"
+ ];
+ 
+-MochiKit.Async.EXPORT_OK = [
+-    "evalJSONRequest"
+-];
+-
+ MochiKit.Async.__new__ = function () {
+     var m = MochiKit.Base;
+     var ne = m.partial(m._newNamedError, this);
+diff --git a/frontend/beta/js/MochiKit/Base.js b/frontend/beta/js/MochiKit/Base.js
+index 67f4499..aea0167 100644
+--- a/frontend/beta/js/MochiKit/Base.js
++++ b/frontend/beta/js/MochiKit/Base.js
+@@ -537,24 +537,6 @@ MochiKit.Base.update(MochiKit.Base, {
+         return rval;
+     },
+ 
+-
+-    _wrapDumbFunction: function (func) {
+-        return function () {
+-            // fast path!
+-            switch (arguments.length) {
+-                case 0: return func();
+-                case 1: return func(arguments[0]);
+-                case 2: return func(arguments[0], arguments[1]);
+-                case 3: return func(arguments[0], arguments[1], arguments[2]);
+-            }
+-            var args = [];
+-            for (var i = 0; i < arguments.length; i++) {
+-                args.push("arguments[" + i + "]");
+-            }
+-            return eval("(func(" + args.join(",") + "))");
+-        };
+-    },
+-
+     /** @id MochiKit.Base.methodcaller */
+     methodcaller: function (func/*, args... */) {
+         var args = MochiKit.Base.extend(null, arguments, 1);
+@@ -610,8 +592,8 @@ MochiKit.Base.update(MochiKit.Base, {
+         if (typeof(func) == "function" && typeof(func.apply) == "undefined") {
+             // this is for cases where JavaScript sucks ass and gives you a
+             // really dumb built-in function like alert() that doesn't have
+-            // an apply
+-            func = m._wrapDumbFunction(func);
++            // an apply            
++            throw "Cannot bind to javascript function without providing an apply function!";
+         }
+         if (typeof(im_func) != 'function') {
+             im_func = func;
+@@ -793,7 +775,7 @@ MochiKit.Base.update(MochiKit.Base, {
+ 
+     /** @id MochiKit.Base.evalJSON */
+     evalJSON: function () {
+-        return eval("(" + arguments[0] + ")");
++        return JSON.parse(arguments[0]);
+     },
+ 
+     /** @id MochiKit.Base.serializeJSON */
+diff --git a/frontend/beta/js/YUI-extensions/yutil.js b/frontend/beta/js/YUI-extensions/yutil.js
+index a815397..211488f 100644
+--- a/frontend/beta/js/YUI-extensions/yutil.js
++++ b/frontend/beta/js/YUI-extensions/yutil.js
+@@ -236,10 +236,6 @@ YAHOO.printf = function(format, arg1, arg2, etc){
+           return m.slice(1, -1);
+         }
+         var rpl = args[a1];
+-        if (a3) {
+-          var f = eval(a3);
+-          rpl = f(rpl);
+-        }
+         return rpl ? rpl : '';
+       }));
+ }
+@@ -285,25 +281,6 @@ YAHOO.extendX = function(subclass, superclass, overrides){
+     }
+ };
+ 
+-/**
+- * Creates namespaces but does not assume YAHOO is the root.
+- * @param {String} namespace1
+- * @param {String} namespace2
+- * @param {String} etc
+- * @static
+- */
+-YAHOO.namespaceX = function(){
+-    var a = arguments, len = a.length, i;
+-    YAHOO.namespace.apply(YAHOO, a);
+-    for(i = 0; i < len; i++){
+-        var p = a[i].split('.')[0];
+-        if(p != 'YAHOO' && YAHOO[p]){
+-            eval(p + ' = YAHOO.' + p);
+-            delete YAHOO[p];
+-        }
+-    }
+-};
+-
+ YAHOO.override = function(origclass, overrides){
+     if(overrides){
+         var p = origclass.prototype;
+@@ -634,4 +611,4 @@ if(YAHOO.util.DragDrop){
+                 c.height - topSpace - b.height - (pad.bottom||0) //bottom
+         );
+     } 
+-}
++}
+-- 
+1.7.3.4
+
