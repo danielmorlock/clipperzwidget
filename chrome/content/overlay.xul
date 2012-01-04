@@ -51,33 +51,6 @@
     <script type="text/javascript" src="lib/Clipperz/PM/Strings.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Strings/MessagePanelConfigurations.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Date.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/BaseComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/MessageBox.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/TextFormField.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/PasswordEntropyDisplay.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/PasswordGenerator.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/MainComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/AbstractComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/HeaderComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/TitleComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/NotesComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/FieldComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/AbstractFieldSubComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/FieldButtonComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/FieldLabelComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/FieldDragHandler.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/FieldValueComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/FieldTypeComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/DirectLoginsComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/DirectLoginComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/DirectLoginBindingComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/DirectLoginValueComponent.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/RecordDetail/CreationWizard.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/TabPanel/TabPanelController.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Printing/Header.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Printing/Record.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/Printing/Footer.js"></script>
-    <script type="text/javascript" src="lib/Clipperz/PM/Components/OTP/MainComponent.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Toll.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Proxy.js"></script>
     <script type="text/javascript" src="lib/Clipperz/PM/Proxy/Proxy.JSON.js"></script>
