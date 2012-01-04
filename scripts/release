@@ -20,6 +20,12 @@ cd clipperzwidget
 git checkout $tag 
 git submodule update --init
 
+# Apply patches
+cd ext/password-manager
+patches=`find ../../patches -iname '*.patch'`
+for p in $patches ; do git apply $p ; done
+cd $tmp/clipperzwidget
+
 # Prepare library and remove file we don't need!
 rm chrome/content/lib
 mkdir chrome/content/lib
